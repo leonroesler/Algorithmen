@@ -1,0 +1,69 @@
+package roesler821775.a01;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+
+	static String	name	= "doc/a01.png";
+	static int		width	= 480;
+	static int		height	= 270;
+
+	public static void main(String[] args) {
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		for (int x = 0; x != width; x++) {
+			for (int y = 0; y != height; y++) {
+				image.setRGB(x, y, colorForRedSquareOnBlue(x, y));
+			}
+		}
+
+		try {
+			File outputfile = new File(name);
+			ImageIO.write(image, "png", outputfile);
+			System.out.println("Wrote image: " + name);
+		} catch (IOException e) {
+			System.out.println("Something went wrong: " + e);
+		}
+	}
+
+	static int colorForRedSquareOnBlue(int x, int y) {
+	      int size = 100;
+	      //
+	      int radius = 100;
+	      int var = 0;
+	      int middle = height / 2 - y;
+	      // Rechteck
+	      // if (Math.abs(width / 2 - x) < size / 2 && Math.abs(height / 2 - y) <
+	      // size / 2)
+	      // return new Color(255, 0, 0).getRGB();
+	      // Kreis
+
+	      // Die if-Bedingugn pr¸ft, ist der Pixel innerhalb der Form (Kreis) oder
+	      // nicht.
+	      // Je nachdem wird eine andere Farbe gew‰hlt.
+	      //Kreisformel nach r umgestell: r = WURZEL (x2 + y2)
+	      if (radius * radius > ((width / 2 - x) * (width / 2 - x) + (height / 2 - y) * (height / 2 - y))){
+	      //if (radius > Math.sqrt((width / 2 - x) * (width / 2 - x) + (height / 2 - y) * (height / 2 - y))) {
+	         return new Color(255, 0, 0).getRGB();
+	      } else {
+	         // Hintergrund:
+	         // 255 is maximaler Wert einer Farbe
+	         // RGB alle 255 = weiﬂ
+	         // Am anfang hat y die Koordinate (0,0)
+	         // Das bedeutet wenn wir starten hat y den Wert 0
+	         // Dann wird die Spalte (x) durchgegangen
+	         // x soll sich auf der ganzen Zeile nicht ver‰ndern
+	         // Beim ersten Durchlauf der Vorschleife steht also var = 255 - (0 / 2)
+	         // damit wird returned (255, 255, 255) also weiﬂ
+	         // Nehmen wir bei R und G langsam die Werte runter erhalten wir
+	         // irgendwann blau
+	         // Der Verlauf soll vertikal gehen
+	         var = 255 - (y / 2);
+	         return new Color(var, 255, 255).getRGB();
+	      }
+	   }
+}
