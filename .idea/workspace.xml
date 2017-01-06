@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d04c2594-2cd4-4f69-b9b2-c8c7a3ac1549" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/Blatt4.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/LinkedList.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/List.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/Main.java" afterPath="" />
-    </list>
+    <list default="true" id="d04c2594-2cd4-4f69-b9b2-c8c7a3ac1549" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
