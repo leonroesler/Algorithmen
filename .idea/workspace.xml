@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d04c2594-2cd4-4f69-b9b2-c8c7a3ac1549" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/Blatt4.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/LinkedList.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/List.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Blatt4/src/Main.java" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -372,7 +375,7 @@
         <state relative-caret-position="-792">
           <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
           <folding>
-            <marker date="1483695431672" expanded="true" signature="37:94" ph="/**...*/" />
+            <marker date="1483695606756" expanded="true" signature="37:94" ph="/**...*/" />
           </folding>
         </state>
       </provider>
