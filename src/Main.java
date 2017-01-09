@@ -1,10 +1,17 @@
+import java.util.PriorityQueue;
+
 /**
- * Created by leon on 06.01.2017.
+ * Dijkstra test with BeispieleGewichtet examples.
  */
 public class Main {
 
-    public static void main (String[] args){
-        System.out.println("algo");
+    public static void main(String[] args) {
+
+        PriorityQueue<Integer> q = new PriorityQueue<>();
+        q.add(1);
+
+        System.out.println("queue: " + q);
+
     }
 
 }
