@@ -1,6 +1,9 @@
 package algouebung8;
-import algouebung8.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 /** Eine Klasse, die die Datenstruktur eines Graphen repr�sentiert. Intern werden

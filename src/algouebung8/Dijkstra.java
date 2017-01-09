@@ -5,8 +5,9 @@
  */
 package algouebung8;
 
-import algouebung8.AlgoUebung8.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.PriorityQueue;
 
 /**
  *
@@ -25,7 +26,6 @@ public class Dijkstra {
 //        this.vertex = vertex;
 //        this.edge = edge;
 //    }
-
     public Dijkstra(Graph graph, double distanceFromUandV, Edge edge) {
 //        initializeSingleSource
         this.graph = graph;
@@ -38,10 +38,43 @@ public class Dijkstra {
     }
 
     //HIER SIND WIR 
-    private PriorityQueue initializeSingleSource(Graph graph, Vertex startpoint) {
+    private PriorityQueue initializeSingleSource(Graph graph1, Vertex startpoint) {
         startpoint = null;
-        PriorityQueue newPriorityQueue = new PriorityQueue();
-        newPriorityQueue.addAll(graph.getVertices());
+        
+        
+        PriorityQueue newPriorityQueue = new PriorityQueue<Vertex>();
+        newPriorityQueue.addAll(graph1.getVertices());
+        
+        Collection allVertices= graph1.getVertices();
+        Collection allEdges= graph1.getEdges();
+        
+        graph1 = new Graph(allVertices, allEdges);
+        Vertex vertexTemp;
+       
+        
+        
+        int index = 0;
+
+        for (Iterator it = graph1.getVertices().iterator(); it.hasNext();) {
+            Vertex vertex = graph1.getVertex(index);
+            if (vertex != startpoint) {
+               Collection neighboursCollection=  graph1.getNeighbours(vertex);
+               
+                
+//                distance[vertex]=MAXDDOUBLE;
+
+//                  distance[index]=MAXDDOUBLE;
+//                  prev[index-1]= null;
+//                prev[vertex]= null;
+            }
+
+        }
+        for (int i = 0; i < graph1.getNumberVertices() - 1; i++) {
+//            distance[index] = MAXDDOUBLE;
+//             = arr[i];
+
+        }
+
         for (int i = 0; i < newPriorityQueue.size(); i++) {
 //             = arr[i];
 
@@ -52,8 +85,16 @@ public class Dijkstra {
     }
 
 //    //TODO
-//    private int Relax(Vertex u, Vertex v, int weight) {
-//
+    private int Relax(Vertex u, Vertex v, int weight) {
+        
+// (u,v) edge, w weight function 
+    int zahl = 0;
+        return zahl;
+    }
+    
+//    public int initializeWIght(Vertex u ,Vertex v){
+//        int gewicht = 
+//        return  gewicht ;
 //    }
 
 }
