@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 
 /**
- * Dijkstra Algorithm.
+ * Diese Klasse initialisiert den Dijkstra Algorithmus.
  */
 public class Dijkstra {
 
@@ -13,17 +13,25 @@ public class Dijkstra {
     private PriorityQueue priorityQueue;
     private double MAXDDOUBLE = Double.POSITIVE_INFINITY;
 
-    //    private public Dijkstra(Graph graph, Vertex vertex, Edge<Vertex> edge) {
+//        public Dijkstra(Graph graph, Vertex vertex, Edge<Vertex> edge) {
 //        this.graph = graph;
 //        this.vertex = vertex;
 //        this.edge = edge;
 //    }
+
+    /**
+     * Konstruktor der Klasse Dijkstra.
+     *
+     * @param graph Der Graph
+     * @param distanceFromUandV Die Distanz von Punkt U zu Punkt V
+     * @param edge Die Kante
+     */
     public Dijkstra(Graph graph, double distanceFromUandV, Edge edge) {
-//        initializeSingleSource
+        // initializeSingleSource
         this.graph = graph;
         // u(vector) - v(vector?)
         this.edge = edge;
-//         distanceFromUandV= Double.POSITIVE_INFINITY;
+        // distanceFromUandV = Double.POSITIVE_INFINITY;
 
         priorityQueue = new PriorityQueue<>();
         priorityQueue.addAll(graph.getVertices());
@@ -41,9 +49,8 @@ public class Dijkstra {
         Collection allEdges = graph1.getEdges();
 
         graph1 = new Graph(allVertices, allEdges);
+
         Vertex vertexTemp;
-
-
         int index = 0;
 
         for (Iterator it = graph1.getVertices().iterator(); it.hasNext(); ) {
@@ -52,11 +59,10 @@ public class Dijkstra {
                 Collection neighboursCollection = graph1.getNeighbours(vertex);
 
 
-//                distance[vertex]=MAXDDOUBLE;
-
-//                  distance[index]=MAXDDOUBLE;
-//                  prev[index-1]= null;
-//                prev[vertex]= null;
+//                distance[vertex] = MAXDDOUBLE;
+//                distance[index] = MAXDDOUBLE;
+//                prev[index - 1] = null;
+//                prev[vertex] = null;
             }
 
         }
@@ -75,28 +81,17 @@ public class Dijkstra {
         return newPriorityQueue;
     }
 
-    //    //TODO
+    //TODO:
     private int Relax(Vertex u, Vertex v, int weight) {
 
-// (u,v) edge, w weight function
+        // (u,v) edge, w weight function
         int zahl = 0;
         return zahl;
     }
 
-//    public int initializeWIght(Vertex u ,Vertex v){
+//    public int initializeWIght(Vertex u, Vertex v) {
 //        int gewicht =
-//        return  gewicht ;
+//        return gewicht;
 //    }
-
-
-
-    public static void main(String[] args) {
-
-        PriorityQueue<Integer> q = new PriorityQueue<>();
-        q.add(1);
-
-        System.out.println("queue: " + q);
-
-    }
 
 }

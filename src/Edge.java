@@ -1,10 +1,11 @@
-/** Eine Klasse die Kanten eines Graphen repräsentiert
+/**
+ * Eine Klasse die Kanten eines Graphen repräsentiert
  *
+ * @param <V> eine Unterklasse der Knotenklasse Vertex zur Repräsentation der Endknoten der Kante
  * @author ripphausen
  * @version 1.0
- * @param <V> eine Unterklasse der Knotenklasse Vertex zur Repräsentation der Endknoten der Kante
  */
-public class Edge <V extends Vertex> {
+public class Edge<V extends Vertex> {
     private V vertexA;
     private V vertexB;
     private int weight = 1;
@@ -21,6 +22,7 @@ public class Edge <V extends Vertex> {
         vertexB = b;
         weight = 1; // Standardgewicht
     }
+
     public V getVertexA() {
         return vertexA;
     }
@@ -32,6 +34,7 @@ public class Edge <V extends Vertex> {
     public int getWeight() {
         return weight;
     }
+
     public void setWeight(int weight) {
         this.weight = weight;
     }

@@ -1,4 +1,5 @@
-/** Eine Klasse, die Knoten eines Graphen repräsentiert
+/**
+ * Eine Klasse, die Knoten eines Graphen repräsentiert
  *
  * @author ripphausen
  * @version 1.0
