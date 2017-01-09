@@ -2,6 +2,8 @@ import java.util.*;
 
 /**
  * Die Klasse Main testet den Dijkstra Algorithmus mit den Beispielen aus dem BeispieleGewichtet Ordner.
+ *
+ * @author Emil Steinkopf, Leon Rössler, Stephan Dünkel, Ersin Yildirim
  */
 public class Main {
 
@@ -18,7 +20,7 @@ public class Main {
         final long timeStart = System.currentTimeMillis();
 
         // Initialisiere Dijkstra-Algorithmus
-        Dijkstra dijkstra;
+        final Dijkstra dijkstra;
 
         // Beispieldaten Test:
 

@@ -4,6 +4,8 @@ import java.util.PriorityQueue;
 
 /**
  * Diese Klasse initialisiert den Dijkstra Algorithmus.
+ *
+ * @author Emil Steinkopf, Leon Rössler, Stephan Dünkel, Ersin Yildirim
  */
 public class Dijkstra {
 
@@ -22,9 +24,9 @@ public class Dijkstra {
     /**
      * Konstruktor der Klasse Dijkstra.
      *
-     * @param graph Der Graph
+     * @param graph             Der Graph
      * @param distanceFromUandV Die Distanz von Punkt U zu Punkt V
-     * @param edge Die Kante
+     * @param edge              Die Kante
      */
     public Dijkstra(Graph graph, double distanceFromUandV, Edge edge) {
         // initializeSingleSource
@@ -37,7 +39,13 @@ public class Dijkstra {
         priorityQueue.addAll(graph.getVertices());
     }
 
-    //HIER SIND WIR
+    /**
+     * Diese Methode gibt jeweils einen Weg der zu durchlaufenden Queue wieder.
+     *
+     * @param graph1     Der Graph der PriorityQueue
+     * @param startpoint Der Startpunkt der PriorityQueue, Der Wert ist Null
+     * @return Es gibt einen Weg vom Startpunkt bis zum Endpunkt der PriorityQueue wieder
+     */
     private PriorityQueue initializeSingleSource(Graph graph1, Vertex startpoint) {
         startpoint = null;
 
@@ -81,7 +89,16 @@ public class Dijkstra {
         return newPriorityQueue;
     }
 
-    //TODO:
+    //TODO: Relax, we are not done yet!
+
+    /**
+     * Berechnet das Kantengewicht zweier Punkte.
+     *
+     * @param u      Der Punkt u
+     * @param v      Der Punkt v
+     * @param weight Das Kantengewicht vom Punkt u zum Punkt v
+     * @return
+     */
     private int Relax(Vertex u, Vertex v, int weight) {
 
         // (u,v) edge, w weight function
