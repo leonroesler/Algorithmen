@@ -178,7 +178,8 @@ public class Graph <V extends Vertex, E extends Edge<V>> {
 	 * @param v der Knoten
 	 * @return eine Menge mit allen zu v inzidenten Kanten
 	 */
-	public Collection<E> getIncidentEdges(V v) {
+	
+        public Collection<E> getIncidentEdges(V v) {
 		int id = v.getId();
 		return getIncidentEdges(id);
 	}

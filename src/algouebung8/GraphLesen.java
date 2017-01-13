@@ -137,6 +137,9 @@ public class GraphLesen {
 		    	  A[i][0] = v;
 		    	  A[i][1] = u;
 		    	  A[i][2] = w;
+                          
+                          graph(u,v)
+                                  Graph( u,v,w);
 		      }
 		  }
 		  catch (Exception e) {

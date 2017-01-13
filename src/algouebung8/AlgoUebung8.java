@@ -50,6 +50,7 @@ public class AlgoUebung8 {
         zahl2.put(0, 3.0);
         Vertex vertexID;
         vertexID = new Vertex(0);
+        Vertex vertexB = new Vertex(5);
 //        unvisteited.add(vertexID.getId());
         unvisteited.add(vertexID);
         distance.put(vertexID.getId(), Double.POSITIVE_INFINITY);
@@ -87,6 +88,9 @@ public class AlgoUebung8 {
 //        System.out.println("HIER KOMMEN DIE HASHMAPS 2.0");
 //        System.out.println(distance.get(vertexID.getId()));
 //        System.out.println(prevDistance.get(vertexID.getId()));
+
+        Edge e = new Edge(vertexID, vertexB);
+        System.out.println("das ist die Lösung " + e.getVertexB().getId());
     }
 
 }
