@@ -37,7 +37,7 @@ public class DijsktraAlgorithmus {
 
     //TODO noch nicht sicher ob als Attribut der Klasse oder Lokale Variable
     private PriorityQueue<Integer> unvisitedSet;
-    private PriorityQueue<Vertex> visitedSet;
+    private PriorityQueue<Integer> visitedSet;
 
     /**
      *
@@ -100,7 +100,9 @@ public class DijsktraAlgorithmus {
             Vertex vertexB = edge.getVertexB();
             // TODO Nachgucken ob Hashmap doppelte Einträge generiert 
             //LOESUNG MIT HASHSET ASUTAUSCHEN !!!!
+            distanceMap.remove(vertexB.getId(), egdeWeight.doubleValue());
             distanceMap.put(vertexB.getId(), egdeWeight.doubleValue());
+            visitedSet.add(vertexB.getId());
 
         }
 
