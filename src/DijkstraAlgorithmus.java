@@ -35,10 +35,12 @@ public class DijkstraAlgorithmus {
     private PriorityQueue<Integer> visitedSet;
 
     /**
+     * Der Konstruktor der Klasse DijkstraAlgorithmus.
      *
-     * @param graph
-     * @param weight
-     * @param startpoint
+     *
+     * @param graph Der Graph der durchlaufen werden muss
+     * @param weight Das Kantengewicht eines Graphen
+     * @param startpoint Der Startpunkt des Graphen
      */
     private DijkstraAlgorithmus(Graph graph, Double weight, Vertex startpoint) {
         //TODO die wieght funtion den Vertex irgendwoher holen der über bestimmen des kürzesten Weges
@@ -48,6 +50,12 @@ public class DijkstraAlgorithmus {
 
     }
 
+    /**
+     * Diese Methode sucht den kürzesten Weg einer SingleSource von einen Startpunkt zum Endpunkt.
+     *
+     * @param graph Der Graph der durchlaufen werden muss
+     * @param startpoint Der Startpunkt des Graphen
+     */
     private void initializeSingleSource2(Graph graph, Vertex startpoint) {
         //collection die alle Vertices enthält
         Collection<Vertex> allVerteciesInGraph = graph.getVertices();
@@ -79,9 +87,9 @@ public class DijkstraAlgorithmus {
      * current shortest path from s to u and append the edge(u,v) assumes Vertex
      * are numbered 0, 1, ... n and that the source Vertex is 0
      *
-     * @param u
-     * @param v
-     * @param weight
+     * @param u Der Knoten u ist der Startpunkt des Graphen
+     * @param v Der Knoten v ist der Endpunkt des Graphen
+     * @param weight Ist das Kantengewicht von einer Kante
      */
     private void relax(Vertex u, Vertex v, Double weight) {
         //asume u is start vertex
@@ -120,7 +128,7 @@ public class DijkstraAlgorithmus {
     }
 
     //TODO herrausfinden wie man einen Vertex aus der Queue herrausextrahiert
-    //1.ANSATZ man steckt in die Que nicht den vertex sondern seine ID und vergleicht die ID
+    //1.ANSATZ man steckt in die Queue nicht den Vertex sondern seine ID und vergleicht die ID
     //des übergebenden VERTEX mit der aus der QUE und removed sie dann
     /**
      * 2.ANSATZ you will have to delete and re-insert each element which is
@@ -135,10 +143,10 @@ public class DijkstraAlgorithmus {
      * Assumes that PQ is not empty method that ectract min value from Priority
      * Queue
      *
-     * @param filledPriorityQueue
-     * @param toExtratc
+     * @param filledPriorityQueue the filled PriorityQueue
+     * @param toExtract
      */
-    private void extractMin(PriorityQueue<Vertex> filledPriorityQueue, Vertex toExtratc) {
+    private void extractMin(PriorityQueue<Vertex> filledPriorityQueue, Vertex toExtract) {
         if (filledPriorityQueue != null || !filledPriorityQueue.isEmpty()) {
             // nimmt den VErtext an erster Stelle = startpoint
             Vertex source = filledPriorityQueue.peek();
@@ -146,16 +154,16 @@ public class DijkstraAlgorithmus {
             for (Vertex vertextInPQ : filledPriorityQueue) {
                 if (vertextInPQ.getId() != source.getId()) {
                     Integer vertextID = vertextInPQ.getId();
+
                     //@TODO aus der PQ das gewicht zeihen mit peek und durch relax vergleichen lassen
                     //https://github.com/Gerst20051/JAVA/blob/master/workspace/graphs/src/renaud/waldura/dijkstra/DijkstraEngine.java
-                    // relax(source, vertextInPQ, fil)); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<--------------------------------------------
-//                    vertexDistance.put(index, distanceMap.put(vertextInPQ.getId(), dis));
+                    relax(source, vertextInPQ, vertextID.doubleValue());
+//                  vertexDistance.put(index, distanceMap.put(vertextInPQ.getId(), dis));
                     distanceMap.put(index, vertextID.doubleValue());
                     index++;
                 }
             }
-
-            filledPriorityQueue.remove(toExtratc);
+            filledPriorityQueue.remove(toExtract);
         }
 
     }
@@ -179,10 +187,12 @@ public class DijkstraAlgorithmus {
                     Integer vertexIdWithshortestDistance = vertextInPQwithID;
 //                private HashMap<HashMap<Double, Integer>, Double> shortesvertexDistance;
                     Double u = distanceMap.get(vertextInPQwithID);
-//                entferne u aus Q
+                    // entferne u aus Q
                     filledPriorityQueue.remove(vertexIdWithshortestDistance);
 
-                    //TODO DANN PASSIERT WAS
+                    //TODO: DANN PASSIERT WAS
+                    // Was soll hier passieren?
+
                     //DANN WIEDER HINZUFÜGEN
                     filledPriorityQueue.add(vertexIdWithshortestDistance);
 //                    vertexDistance.put(index, distanceMap.put(vertextInPQ.getId(), dis));
