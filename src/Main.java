@@ -20,7 +20,7 @@ public class Main {
         final long timeStart = System.currentTimeMillis();
 
         // Initialisiere Dijkstra-Algorithmus
-        final Dijkstra dijkstra;
+        final DijkstraAlgorithmus dijkstra;
 
         // Beispieldaten Test:
 
