@@ -69,9 +69,8 @@ public class Test {
 	
 	//utility method to poll data from queue
 	private static void pollDataFromQueue(PriorityQueue<VertexDist> customerPriorityQueue) {
-		while(true){
+		while(customerPriorityQueue.peek()!=null){
 			VertexDist vertex = customerPriorityQueue.poll();
-			if(vertex == null) break;
 			System.out.println("Processing Vertex with ID="+vertex.getId());
 		}
 	}

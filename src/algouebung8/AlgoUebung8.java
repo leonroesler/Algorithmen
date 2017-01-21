@@ -101,7 +101,7 @@ public class AlgoUebung8 {
                 vertexDist.setPrevVertex(null);
                 Integer vertexId= vertexDist.getId();
 //                unvisitedSet.add(vertexDist.getDistance());
-                unvisitedSet.add(vertexDist);
+//                unvisitedSet.add(vertexDist);
             }else if(vertexDist.getId()==4.0){
                 vertexDist.setDistance(8);
 //                unvisitedSet.add(vertexDist.getDistance());
