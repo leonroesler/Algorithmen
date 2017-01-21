@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author ripphausen
  * @version 1.0
  */
-public class GraphLesen {
+public class GraphLesenOwn extends GraphLesen{
 	/**
 	 Funktion FileToGraphArray liest Werte aus Datei 'dat' und erzeugt ein Array, in dem
 	 der Graph abgelegt ist.
@@ -165,26 +165,27 @@ public class GraphLesen {
 	 	Kante {a,b} durch zwei gerichtete Kanten (a,b) und (b,a) dargestellt
 	 @return der Graph mit Standardgewicht 1 f�r die Kanten
 	 */
-	public static Graph<Vertex,Edge<Vertex>> FileToGraph(String dat, boolean directed) {
+	public static GraphOwn<VertexDist,EdgeOwn<VertexDist>> FileToGraphOwn(String dat, boolean directed) {
 		int[][] GArray = FileToGraphArray(dat);
 		int n = GArray[0][0];
 		int m = GArray[0][1];
-		Graph<Vertex,Edge<Vertex>> G = new Graph(n);
+		GraphOwn<VertexDist,EdgeOwn<VertexDist>> G = new GraphOwn<>(n);
 
 		// Knoten hinzufuegen
 		for (int i = 0; i < n; i++) {
-			G.addVertex(new Vertex(i));
+			G.addVertex(new VertexDist(i));
 		}
 
 		/* Kanten hinzufuegen */
 		for (int i = 1; i <= m; i++) {
 			int idxa = GArray[i][0];
 			int idxb = GArray[i][1];
-			Vertex a = G.getVertex(idxa);
-			Vertex b = G.getVertex(idxb);
-			G.addEdge(new Edge<Vertex>(a,b));
+			VertexDist a = G.getVertexDist(idxa);
+			VertexDist b = G.getVertexDist(idxb);
+                        G.addEdge(new EdgeOwn<VertexDist>(a, b));
+			G.addEdge(new EdgeOwn<VertexDist>(a,b));
 			if (!directed) {
-				G.addEdge(new Edge<Vertex>(b,a));
+				G.addEdge(new EdgeOwn<VertexDist>(b,a));
 			}
 		}
 		return G;
@@ -205,15 +206,15 @@ public class GraphLesen {
 	 	Kante {a,b} durch zwei gerichtete Kanten (a,b) und (b,a) dargestellt
 	 @return der Graph mit Standardgewicht 1 f�r die Kanten
 	 */
-	public static Graph<Vertex,Edge<Vertex>> FileToWeightedGraph(String dat, boolean directed) {
+	public static GraphOwn<VertexDist,EdgeOwn<VertexDist>> FileToWeightedGraphOwn(String dat, boolean directed) {
 		int[][] GArray = FileToWeightedGraphArray(dat);
 		int n = GArray[0][0];
 		int m = GArray[0][1];
-		Graph<Vertex,Edge<Vertex>> G = new Graph(n);
+		GraphOwn<VertexDist,EdgeOwn<VertexDist>> G = new GraphOwn<VertexDist, EdgeOwn<VertexDist>>(n);
 
 		// Knoten hinzufuegen
 		for (int i = 0; i < n; i++) {
-			G.addVertex(new Vertex(i));
+			G.addVertexDist(new VertexDist(i));
 		}
 
 		/* Kanten hinzufuegen */
@@ -221,11 +222,11 @@ public class GraphLesen {
 			int idxa = GArray[i][0];
 			int idxb = GArray[i][1];
 			int w = GArray[i][2];
-			Vertex a = G.getVertex(idxa);
-			Vertex b = G.getVertex(idxb);
-			G.addEdge(new Edge<Vertex>(a,b,w));
+			VertexDist a = G.getVertexDist(idxa);
+			VertexDist b = G.getVertexDist(idxb);
+			G.addEdge(new EdgeOwn<VertexDist>(a,b,w));
 			if (!directed) {
-				G.addEdge(new Edge<Vertex>(b,a,w));
+				G.addEdge(new EdgeOwn<VertexDist>(b,a,w));
 			}
 		}
 		return G;

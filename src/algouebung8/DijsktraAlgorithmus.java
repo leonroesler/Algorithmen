@@ -17,14 +17,14 @@ public class DijsktraAlgorithmus {
 // SAFE 100% richtig 
 
     private Graph graph;
-    private Vertex vertex;
+    private VertexDist vertex;
     private Double MAXDOUBLE = Double.POSITIVE_INFINITY;
 
     //Distance alternative zum zweidimensionalen Array
     //mit dem Index(Double) greift man auf einen Hashmap zu ueber die man mit der ID die distanc erhält 
-//    private HashMap<Vertex.id, Integer> vertexDistance;
+//    private HashMap<VertexDist.id, Integer> vertexDistance;
 //    predecessor
-//    private HashMap<Vertex.id, Vertex.id> vertexDistance;
+//    private HashMap<VertexDist.id, VertexDist.id> vertexDistance;
     private HashMap<Double, HashMap<Double, Double>> vertexDistance;
 
     private HashMap<HashMap<Double, Integer>, Double> shortesvertexDistance;
@@ -36,7 +36,9 @@ public class DijsktraAlgorithmus {
 // SAFE 100% richtig ENDE
 
     //TODO noch nicht sicher ob als Attribut der Klasse oder Lokale Variable
+    //hier wird nur die ID als referenz gespeichert 
     private PriorityQueue<Integer> unvisitedSet;
+    // hier wird das gewicht gespeichert das aus einer Hashmap übergeben wird
     private PriorityQueue<Integer> visitedSet;
 
     /**
@@ -45,29 +47,28 @@ public class DijsktraAlgorithmus {
      * @param weight
      * @param startpoint
      */
-    private DijsktraAlgorithmus(Graph graph, Double weight, Vertex startpoint) {
-//        TODO die wieght funtion  den Vertex irgendwoher holen der  über bestimmen des kürzesten Weges
+    private DijsktraAlgorithmus(Graph graph, Double weight, VertexDist startpoint) {
+//        TODO die wieght funtion  den VertexDist irgendwoher holen der  über bestimmen des kürzesten Weges
         this.graph = graph;
 //        weight= weightFunction(vertex, startpoint);
         this.vertex = startpoint;
-        
+
     }
-    
-    private void initializeSingleSource2(Graph graph, Vertex startpoint) {
+
+    private void initializeSingleSource2(Graph graph, VertexDist startpoint) {
         //collection die alle Vertices enthält
-        Collection<Vertex> allVerteciesInGraph = graph.getVertices();
+        Collection<VertexDist> allVerteciesInGraph = graph.getVertices();
         //queue die alle unbesuchten/unbearbeiteten vertices enthalten sollte 
         unvisitedSet = new PriorityQueue<Integer>(graph.getNumberVertices());
 
-        for (Vertex vertexfromGraph : allVerteciesInGraph) {
+        for (VertexDist vertexfromGraph : allVerteciesInGraph) {
             Integer vertexId = vertexfromGraph.getId();
             if (vertexfromGraph.getId() != startpoint.getId()) {
                 //HASHMAP variante
-                //  die distance mit dem VertexID... bekommt den wert  Maxdouble
+                //  die distance mit dem VertexDistID... bekommt den wert  Maxdouble
                 distanceMap.put(vertexId, MAXDOUBLE);
-                //  die prevdistance mit dem VertexID... bekommt den wert  null
+                //  die prevdistance mit dem VertexDistID... bekommt den wert  null
                 prevDistanceMap.put(vertexId, null);
-                distanceMap.put(startpoint.getId(), 0.0);
                 //HASHMAP variante ENDE
                 //zur Queuefür die unbesuchten Knoten hinzufügen 
                 unvisitedSet.add(vertexfromGraph.getId());
@@ -75,48 +76,56 @@ public class DijsktraAlgorithmus {
             }
 
         }
+        distanceMap.put(startpoint.getId(), 0.0);
     }
-
-    
 
     /**
      * The method relaxation of an edge(u,v) consists in the examination, if the
      * so far determined shortest path to v * can be improved by taking the
-     * current shortest path from s to u and append the edge(u,v) assumes Vertex
-     * are numbered 0, 1, ... n and that the source Vertex is 0
+     * current shortest path from s to u and append the edge(u,v) assumes VertexDist
+     * are numbered 0, 1, ... n and that the source VertexDist is 0
      *
      * @param u
      * @param v
      * @param weight
      */
-    private void relax(Vertex u, Vertex v, Double weight) {
-        //asume u is start vertex
+    private void relax(VertexDist u, VertexDist v, Double weight) {
+        //asume u is start vertex and v ist goal vertex
         // PQ unvisted 
         //graph 
 
         Collection<Edge> incidentEdges = graph.getIncidentEdges(u);
         for (Edge edge : incidentEdges) {
             Integer egdeWeight = edge.getWeight();
-            Vertex vertexB = edge.getVertexB();
-            // TODO Nachgucken ob Hashmap doppelte Einträge generiert 
-            //LOESUNG MIT HASHSET ASUTAUSCHEN !!!!
-            distanceMap.remove(vertexB.getId(), egdeWeight.doubleValue());
-            distanceMap.put(vertexB.getId(), egdeWeight.doubleValue());
-            visitedSet.add(vertexB.getId());
 
+            VertexDist vertexB = edge.getVertexDistB();
+            VertexDist vertexA = edge.getVertexDistA();
+            Double prevVertexDistWeight= distanceMap.get(vertexA.getId());
+            Double vertexWeight= egdeWeight.doubleValue()+prevVertexDistWeight;
+            
+            if (vertexB.getId() == (v.getId())&& vertexWeight<= distanceMap.get(vertexB.getId())) {
+                // TODO Nachgucken ob Hashmap doppelte Einträge generiert 
+                //LOESUNG MIT HASHSET ASUTAUSCHEN !!!! 
+                distanceMap.remove(vertexB.getId());
+                distanceMap.put(vertexB.getId(), vertexWeight);
+                visitedSet.add(vertexB.getId());
+//                visitedSet.addAll(unvisitedSet);
+                System.out.println("visited set= " + visitedSet);
+                visitedSet.add(vertexB.getId());
+            }
         }
 
 //        vertex später an erstestelle 
-//        [startVertex,,2,3,4,5,6]
+//        [startVertexDist,,2,3,4,5,6]
 // private HashMap<vertex.ID, gewicht/distance>> vertexDistance;
-// private HashMap<HashMap<Double, Vertex.id>, Double> vertexDistance;
+// private HashMap<HashMap<Double, VertexDist.id>, Double> vertexDistance;
 // private HashMap<Integer, HashMap<Double, Double>> vertexDistance;
-       
-        //ist es richtig distance als klassenvariable zu definieren 
-        
-        distance[u.getId()] = weight;
         Integer uID = u.getId();
 //        HashMap<Integer, Double> vDistance = new HashMap<>();
+        if (distanceMap.get(u.getId()) > distanceMap.get(v.getId()) + weight) {
+            distanceMap.put(v.getId(), distanceMap.get(v.getId()) + weight);
+            prevDistanceMap.put(v.getId(), uID.doubleValue());
+        }
         if (distance[u.getId()] > distance[v.getId()] + weight) {
             distance[v.getId()] = distance[v.getId()] + weight;
             prevDistance[v.getId()] = uID.doubleValue();
@@ -125,7 +134,7 @@ public class DijsktraAlgorithmus {
 //        return vDistance;
     }
 
-    //TODO  herrausfinden wie man einen Vertex aus der Queue herrausextrahiert 
+    //TODO  herrausfinden wie man einen VertexDist aus der Queue herrausextrahiert 
     //1.ANSATZ man steckt in die Que nicht den vertex sondern seine ID und vergleicht die ID 
     //des übergebenden VERTEX mit der aus der QUE und removed sie dann 
     /**
@@ -144,17 +153,18 @@ public class DijsktraAlgorithmus {
      * @param filledPriorityQueue
      * @param toExtratc
      */
-    private void extractMin(PriorityQueue<Vertex> filledPriorityQueue, Vertex toExtratc) {
+    private void extractMin(PriorityQueue<VertexDist> filledPriorityQueue, VertexDist toExtratc) {
         if (filledPriorityQueue != null || !filledPriorityQueue.isEmpty()) {
             // nimmt den VErtext an erster Stelle = startpoint
-            Vertex source = filledPriorityQueue.peek();
+            VertexDist source = filledPriorityQueue.peek();
             Integer index = 1;
-            for (Vertex vertextInPQ : filledPriorityQueue) {
+            for (VertexDist vertextInPQ : filledPriorityQueue) {
                 if (vertextInPQ.getId() != source.getId()) {
                     Integer vertextID = vertextInPQ.getId();
                     //@TODO aus der PQ das gewicht zeihen mit peek und durch relax vergleichen lassen
                     //https://github.com/Gerst20051/JAVA/blob/master/workspace/graphs/src/renaud/waldura/dijkstra/DijkstraEngine.java
-                    relax(source, vertextInPQ, fil));
+                    relax(source, vertextInPQ, fil)
+                    );
 //                    vertexDistance.put(index, distanceMap.put(vertextInPQ.getId(), dis));
                     distanceMap.put(index, vertextID.doubleValue());
                     index++;
@@ -181,7 +191,7 @@ public class DijsktraAlgorithmus {
             Integer index = 1;
             for (Integer vertextInPQwithID : filledPriorityQueue) {
                 if (vertextInPQwithID != source && distanceMap.get(vertextInPQwithID) != MAXDOUBLE) {
-                    //der Vertex mit der kleinsten distance  
+                    //der VertexDist mit der kleinsten distance  
                     Integer vertexIdWithshortestDistance = vertextInPQwithID;
 //                private HashMap<HashMap<Double, Integer>, Double> shortesvertexDistance;
                     Double u = distanceMap.get(vertextInPQwithID);

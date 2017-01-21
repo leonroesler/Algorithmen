@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
  *
  * @author emil
  */
-public class AlgoUebung8 {
+public class backup {
 //private  Double weightFunction(Vertex u,Vertex v){
 //        Edge distanceFromUandV = new Edge(vertex, vertex);
 //        Integer tempWeight=distanceFromUandV.getWeight();
@@ -36,41 +36,32 @@ public class AlgoUebung8 {
         String dat = "BeispieleGewichtet/graph8_2.txt";
 //        C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/graph8_2.txt
         //@todo Test Graph 
-        final Comparator<VertexDist> shortestDistanceComparator = new Comparator<VertexDist>() {
+        final Comparator<Double> shortestDistanceComparator = new Comparator<Double>() {
         public int compare1(VertexDist left, VertexDist right) {
             // note that this trick doesn't work for huge distances, close to Integer.MAX_VALUE
             Double leftTemp= left.getDistance();
             Double rigthTemp = right.getDistance();
-            Double resultTemp = getShortestDistance(left) - getShortestDistance(right);
+            Double resultTemp = getShortestDistance(leftTemp) - getShortestDistance(rigthTemp);
             int result = resultTemp.intValue();
             
             return (result == 0) ? left.compareTo(right) : result;
         }
         
         @Override
-        public int compare(VertexDist aktuell, VertexDist prev) {
+        public int compare(Double aktuell, Double prev) {
             Double resultD = getShortestDistance(aktuell) - getShortestDistance(prev);
             int result= resultD.intValue();
             return (result == 0) ? aktuell.compareTo(prev) : result;
         }
-        
-        //Comparator anonymous class implementation
-//	public static Comparator<VertexDist> idComparator = new Comparator<VertexDist>(){
-//		
-//		@Override
-//		public int compare(VertexDist c1, VertexDist c2) {
-//            return (int) (c1.getDistance() - c2.getDistance());
-//        }
-//	};
 
         /**
          * @return the shortest distance from the source to the given
          * VertexDist, if there is no route to the destination returns infinity
          *
          */
-        private Double getShortestDistance(VertexDist aktuell) {
+        private Double getShortestDistance(Double aktuell) {
 //            Double shortesDistance = aktuell.getDistance();
-            Double shortesDistance = aktuell.getDistance();
+            Double shortesDistance = aktuell;
             int shortesIntDistance = shortesDistance.intValue();
             // tow options Double.POSITIVE_INFINITY or a number
             return shortesDistance;
@@ -81,40 +72,13 @@ public class AlgoUebung8 {
 //        System.out.println("DAs kein PLAN MAN :"+graphLesen.FileToWeightedGraphOwn(dat, true));   
         graph = graphLesen.FileToWeightedGraphOwn(file.toString(), true);
         graphOri=graphLesen.FileToWeightedGraph(file.toString(), true);
-        PriorityQueue<VertexDist> unvisitedSet;
-        unvisitedSet = new PriorityQueue<VertexDist>(shortestDistanceComparator);
+        PriorityQueue<Double> unvisitedSet;
+        unvisitedSet = new PriorityQueue<Double>(shortestDistanceComparator);
         Collection<VertexDist> vertexDistCollection = graph.getVertices();
 //        unvisitedSet.addAll(vertexDistCollection);
-//        for(VertexDist vertexDist:vertexDistCollection){
-//            Double distance = vertexDist.getDistance();
-//            System.out.println("Vertex is "+vertexDist);
-//            System.out.println("Distance : "+distance);
-//            unvisitedSet.add(distance);
-//        }
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHEN "+graphOri.getVertices());
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHENOWN "+graph.getVertices());
-         Collection<VertexDist> vertexCollection = graph.getVertices();
-         
-        for(VertexDist vertexDist:vertexCollection){
-            if(vertexDist.getId()== 0.0){
-                vertexDist.setDistance(0);
-                vertexDist.setPrevVertex(null);
-                Integer vertexId= vertexDist.getId();
-//                unvisitedSet.add(vertexDist.getDistance());
-                unvisitedSet.add(vertexDist);
-            }else if(vertexDist.getId()==4.0){
-                vertexDist.setDistance(8);
-//                unvisitedSet.add(vertexDist.getDistance());
-                Integer vertexId= vertexDist.getId();
-                unvisitedSet.add(vertexDist);
-            }else{
-            Double distance = vertexDist.getDistance();
-            Integer vertexId= vertexDist.getId();
-            System.out.println("Vertex is "+vertexDist);
-            System.out.println("Distance : "+distance);
-//            unvisitedSet.add(distance);
-            unvisitedSet.add(vertexDist);
-            }
+        for(VertexDist vertexDist:vertexDistCollection){
+            
+            unvisitedSet.add(vertexDist.getDistance());
         }
         System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHEN "+graphOri.getVertices());
         System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHENOWN "+graph.getVertices());
