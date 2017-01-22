@@ -167,6 +167,7 @@ public class AlgoUebung8 {
                 }
             }
 //********* hier beginnt die relax Methode *******//////
+/////************KÖNNTE EINE EIGEN METHODE SEIN ************
             for (VertexDist vertex : vertexIDcollection) {
                 Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertex);
                 System.out.println("DAS SIND DIE ANZAHL DER INCIDENTKANTEN: " + incidentEdges);
@@ -190,81 +191,63 @@ public class AlgoUebung8 {
                     //Variable um das gewicht des vorgänger zu errechnen 
                     Double prevVertexDistWeight = vertexA.getDistance();
                     Double prevSonderFall = vertexB.getDistance();
-                    if (vertexB.getId() == (vertexB.getId())) {
-                        System.out.println("*************Hier Fängt es ANNN!!!!!************");
+//                    if (vertexB.getId() == (vertexB.getId())) {
+                    System.out.println("*************Hier Fängt es ANNN!!!!!************");
 
-                        //@TODO
-                        Double vertexWeight = egdeWeight.doubleValue() + prevVertexDistWeight;
-                        Double weight = vertexB.getDistance();
-                        System.out.println("das ist GEWICHT DER KANTE: " + egdeWeight);
-                        System.out.println("das ist Weight : " + weight);
-                        if (vertexWeight <= vertexB.getDistance()) {
-                            System.out.println(" das ist doch leer ??: " + visitedSet);
-                            if (!visitedSet.contains(vertexB) || visitedSet.contains(vertexA)) {
-                                unvisitedSet.remove(vertexB);
-                                visitedSet.remove(vertexB);
-                                errorControll.remove(vertexB);
-                                System.out.println("Distance unvistPQ direkt NACH remove" + unvisitedSet);
-                                //Updated VertexB distance
-                                vertexB.setDistance(vertexWeight);
-//                            unvisitedSet.add(vertexB);
-                                visitedSet.add(vertexB);
-                                errorControll.put(vertexB, vertexB.getDistance());
-                                visitedSet.containsAll(visitedSet);
-                                //nach dem hinzufügen in der PQ wird der Vertex entfernt um aufaddierung der werte zu verhindern
-                                //add vertexB to visited PQ ?? ob das hier richtig ist ???     
-                                System.out.println("ERROR CONTROLL !!: " + errorControll);
-                                System.out.println("visited set UPDATED= " + visitedSet);
-                                System.out.println("DISTANCE get UPDATED= " + vertexB.getDistance());
-
-                                System.out.println("UNVISITED Map" + unvisitedSet);
-                                visitedSetHash.add(vertexWeight);
-                                System.out.println("PQ mit GEWICHTEN " + visitedSetHash);
-                                System.out.println("PQ mit GEWICHTEN AUS DER DISTANCEMAP " + visitedSetHash);
-//                            visitedSet.addAll(unvisitedSet);
-//                            System.out.println("visited set= " + visitedSet);
-//                            System.out.println("unvisited set= " + unvisitedSet);
-                                //                        weight.intValue();
-                                System.out.println("weigth Value ist " + weight);
-                                filledPriorityQueue.add(vertexWeight);
-//                            filledPriorityQueue.add(egdeWeight.doubleValue());
-                                System.out.println("PQ" + filledPriorityQueue);
-
-                                System.out.println("*************OK NÄCHSTER SCHRITT!!!!!************");
-
-                            }
+                    //@TODO
+                    Double vertexWeight = egdeWeight.doubleValue() + prevVertexDistWeight;
+                    Double weight = vertexB.getDistance();
+                    System.out.println("das ist GEWICHT DER KANTE: " + egdeWeight);
+                    System.out.println("das ist Weight : " + weight);
+                    /////************KÖNNTE EINE EIGEN METHODE SEIN -ENDE- ************
+//                    if (vertexB.getDistance() >= vertexWeight) {
+//                        
+//                    }
+                        System.out.println("HIer komme ich rein ");
+                        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) && (!visitedSet.contains(vertexB) || visitedSet.contains(vertexA))) {
+                            System.out.println("*******ICH BIN DIRNNE ********");
+                            Integer newPredecessor = vertexA.getId();
+                            unvisitedSet.remove(vertexB);
+                            visitedSet.remove(vertexB);
+                            System.out.println("Distance unvistPQ direkt NACH remove" + unvisitedSet);
+                            //Nur al Hilfe
+                            errorControll.remove(vertexB);
+                            //hier geht weiter 
+                            vertexB.setDistance(vertexWeight);
+                            vertexB.setPrevVertex(newPredecessor.doubleValue());
+                            visitedSet.add(vertexB);
+                            //nur als Hilfe
+                            errorControll.put(vertexB, vertexB.getDistance());
+                            System.out.println("ERROR CONTROLL !!: " + errorControll);
+                            System.out.println("visited set UPDATED= " + visitedSet);
+                            System.out.println("DISTANCE get UPDATED= " + vertexB.getDistance());
+                            System.out.println("UNVISITED Map" + unvisitedSet);
+                            System.out.println("weigth Value ist " + weight);
+                            System.out.println("*************OK NÄCHSTER SCHRITT!!!!!************");
                         }
-//                        else if (vertexWeight <= vertexA.getDistance() && vertexB.getDistance() == startpoint.getDistance()) {
-//                            Double vertexWeightSonder = egdeWeight.doubleValue() + prevSonderFall;
-//                            unvisitedSet.remove(vertexA);
-//                            vertexA.setDistance(vertexWeightSonder);
-//
-//                            visitedSet.add(vertexA);
-//                        }
-                        System.out.println("AUSSERHALB DER SCHLEIFE");
-                        System.out.println("visited set= " + visitedSet);
-                        System.out.println("unvisited set= " + unvisitedSet);
 
-                    }
+                    System.out.println("AUSSERHALB DER SCHLEIFE");
+                    System.out.println("visited set=  AUSSERHALB DER SCHLEIFE " + visitedSet);
+                    System.out.println("unvisited set=  AUSSERHALB DER SCHLEIFE " + unvisitedSet);
+
+//                }
 //                    distanceMap.values();
-
                 }
 
             }
-            while(!visitedSet.isEmpty()){
-                System.out.println("visisted Komisches verhalten ?:" +visitedSet);
+            while (!visitedSet.isEmpty()) {
+                System.out.println("visisted Komisches verhalten ?:" + visitedSet);
                 visitedSet.poll();
-                System.out.println("die reihenfolge müsste sich ändern "+visitedSet);
+                System.out.println("die reihenfolge müsste sich ändern " + visitedSet);
             }
-            
+
             for (VertexDist visDist : visitedSet) {
-                
-                
+
             }
             filledPriorityQueue.clear();
 //            distanceMap.remove(startpoint.getId());
             filledPriorityQueue.addAll(distanceMap.values());
-            
+
             System.out.println("die richtige PQ GEFÜLLT MIT DEN RICHTIGEN GEWICHTEN !!" + filledPriorityQueue);
         }
 

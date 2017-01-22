@@ -149,8 +149,8 @@ public class DijsktraAlgorithmusPQ {
             }
         }
         //Der Part stimmt 100% mit den Folien ueberein 
-        if(u.getDistance()> v.getDistance()+weight){
-            Double newDistance = v.getDistance()+weight;
+        if(v.getDistance()> u.getDistance()+weight){
+            Double newDistance = u.getDistance()+weight;
             Integer newPredecessor = u.getId();
             v.setDistance(newDistance);
             v.setPrevVertex(newPredecessor.doubleValue());
