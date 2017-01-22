@@ -30,7 +30,7 @@ public class DijsktraAlgorithmusPQ {
     //filled with all vertecies from graph 
     Collection<VertexDist> vertexCollection;
     // shortestDistanceComparator for the PQ 
-    private  final Comparator<VertexDist> shortestDistanceComparator = new Comparator<VertexDist>() {
+    private final Comparator<VertexDist> shortestDistanceComparator = new Comparator<VertexDist>() {
         @Override
         public int compare(VertexDist aktuell, VertexDist prev) {
             Double resultD = getShortestDistance(aktuell) - getShortestDistance(prev);
@@ -52,10 +52,10 @@ public class DijsktraAlgorithmusPQ {
         }
     };
     //this PQ safe the vertexID of unvistedvertecies with priority sorted by weight decesnding
-    private PriorityQueue<VertexDist> unvisitedPQ = new PriorityQueue<>(vertexCollection.size(), shortestDistanceComparator);
+    private PriorityQueue<VertexDist> unvisitedPQ = new PriorityQueue<>(7, shortestDistanceComparator);
     //
-    private PriorityQueue<VertexDist> visitedPQ = new PriorityQueue<VertexDist>(vertexCollection.size(), shortestDistanceComparator);
-    private PriorityQueue weight = new PriorityQueue<VertexDist>(vertexCollection.size(), shortestDistanceComparator);
+    private PriorityQueue<VertexDist> visitedPQ = new PriorityQueue<VertexDist>(7, shortestDistanceComparator);
+    private PriorityQueue weight = new PriorityQueue<VertexDist>(7, shortestDistanceComparator);
 
     /**
      *
@@ -63,16 +63,17 @@ public class DijsktraAlgorithmusPQ {
      * @param pq
      * @param startpoint
      */
-    private DijsktraAlgorithmusPQ(GraphOwn graph, PriorityQueue weight, VertexDist startpoint) {
+    public DijsktraAlgorithmusPQ(GraphOwn graph, PriorityQueue weight, VertexDist startpoint) {
 //        TODO die wieght methode,  den VertexDist aus dem Vertex den wir aus der PQ haben darüber bestimmen des kürzesten Weges
         this.graph = graph;
         Collection<EdgeOwn> collectionOfEdges = graph.getEdges();
-        
+
         weightMethode(collectionOfEdges, weight);
         negativeEgdeCheck(collectionOfEdges);
         this.weight = weight;
         this.vertex = startpoint;
         vertexCollection = graph.getVertices();
+        fillPriorityQueue();
 
     }
 
@@ -87,7 +88,7 @@ public class DijsktraAlgorithmusPQ {
                     ex.getMessage();
                 }
             }
-            Integer edgeWeight= edge.getWeight();
+            Integer edgeWeight = edge.getWeight();
             weight1.add(edgeWeight.doubleValue());
         }
     }
@@ -106,11 +107,11 @@ public class DijsktraAlgorithmusPQ {
         }
     }
 
-    private void initializeSingleSource2(GraphOwn graph, VertexDist startpoint) {
+    private void initializeSingleSource(GraphOwn graph, VertexDist startpoint) {
         //collection die alle Vertices enthält
 //        Collection<VertexDist> allVerteciesInGraph = graph.getVertices();
         //queue die alle unbesuchten/unbearbeiteten vertices enthalten sollte 
-//        unvisitedSet = new PriorityQueue<Integer>(graph.getNumberVertices());
+//        unvisitedSet = new PriorityQueue<Integer>(graphS.getNumberVertices());
 
         for (VertexDist vertexfromGraph : vertexCollection) {
             Integer vertexId = vertexfromGraph.getId();
@@ -134,11 +135,13 @@ public class DijsktraAlgorithmusPQ {
         // PQ unvisted
         //vertexCollection unvisited Vertecies
         //****** AUS ALGOUEBUNG8*******
+        System.out.println("vertexCollection"+vertexCollection);
         for (VertexDist vertexDist : vertexCollection) {
-            {
+            
                 unvisitedPQ.add(vertexDist);
-            }
+           
         }
+        System.out.println("Unvisited PQ BEI FILL: "+vertexCollection);
     }
 
     /**
@@ -153,24 +156,28 @@ public class DijsktraAlgorithmusPQ {
      */
     private void relax(VertexDist vertexA, VertexDist vertexB, Double egdeWeight) {
 
-        fillPriorityQueue();
+//        fillPriorityQueue();
+        unvisitedPQ.addAll(vertexCollection);
         Collection<EdgeOwn> incidentEdges = graph.getIncidentEdges(vertexA);
         //Variable um das gewicht des vorgänger zu errechnen 
         Double prevVertexDistWeight = vertexA.getDistance();
 
-        Double vertexWeight = egdeWeight.doubleValue() + prevVertexDistWeight;
+        Double vertexWeight = egdeWeight + prevVertexDistWeight;
 //TODO ist der pArt richtig Laut Folien ?? 
 
         //Der Part stimmt 100% mit den Folien ueberein 
         if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) && (!visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA))) {
             Double newDistance = prevVertexDistWeight + egdeWeight;
             Integer newPredecessor = vertexA.getId();
+            System.out.println("unvisited PQ befor remove: " + unvisitedPQ);
             //PQ der unvisited 
             unvisitedPQ.remove(vertexB);
             visitedPQ.remove(vertexB);
             vertexB.setDistance(newDistance);
             vertexB.setPrevVertex(newPredecessor.doubleValue());
             visitedPQ.add(vertexB);
+
+            System.out.println("visited PQ: " + visitedPQ);
         }
     }
 
@@ -197,15 +204,18 @@ public class DijsktraAlgorithmusPQ {
     }
 
     public void executeDijkstra() {
-        initializeSingleSource2(graph, vertex);
-        fillPriorityQueue();
-        while (unvisitedPQ.peek() != null) {
+        initializeSingleSource(graph, vertex);
+//        fillPriorityQueue();
+        while (unvisitedPQ.poll() != null) {
 //     this is literally the extract-Methode for the PriorityQue it uses the
 //     methode poll of the PQ and removes the vertex at the head of the PQ and
 //      returns the id from thhe vertex
+            System.out.println("unvisited PQ  befor poll: " + unvisitedPQ);
             VertexDist vertexU = unvisitedPQ.poll();
+            System.out.println("unvisited PQ after poll: " + unvisitedPQ);
             initWeightrelaxMethod(vertexU);
         }
+        System.out.println("Das ist die sortierte PQ" + visitedPQ);
     }
 
 }
