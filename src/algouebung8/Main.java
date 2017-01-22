@@ -105,7 +105,7 @@ public class Main {
         GraphOwn graph;
 //        System.out.println("DAs kein PLAN MAN :"+graphLesen.FileToWeightedGraphOwn(dat, true));   
         graph = graphLesen.FileToWeightedGraphOwn(file.toString(), true);
-        PriorityQueue<VertexDist> unvisitedSet;
+//        PriorityQueue<VertexDist> unvisitedSet;
         Collection<EdgeOwn>edge=graph.getEdges();
         PriorityQueue<VertexDist> weight = new PriorityQueue<VertexDist>();
         DijsktraAlgorithmusPQ dijkstra= new DijsktraAlgorithmusPQ(graph, weight, graph.getVertexDist(0));

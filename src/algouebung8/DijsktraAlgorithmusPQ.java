@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class DijsktraAlgorithmusPQ {
 
     private GraphOwn graph;
-    private VertexDist vertex;
+    private VertexDist startpoint;
     private Double MAXDOUBLE = Double.POSITIVE_INFINITY;
 //TODO if unneeded remove
     private HashMap<Integer, Double> prevDistanceMap = new HashMap<>();
@@ -71,8 +71,9 @@ public class DijsktraAlgorithmusPQ {
         weightMethode(collectionOfEdges, weight);
         negativeEgdeCheck(collectionOfEdges);
         this.weight = weight;
-        this.vertex = startpoint;
+        this.startpoint = startpoint;
         vertexCollection = graph.getVertices();
+
         fillPriorityQueue();
 
     }
@@ -115,6 +116,7 @@ public class DijsktraAlgorithmusPQ {
 
         for (VertexDist vertexfromGraph : vertexCollection) {
             Integer vertexId = vertexfromGraph.getId();
+            System.out.println("VertexID: " + vertexId);
             if (vertexfromGraph.getId() != startpoint.getId()) {
 
                 vertexfromGraph.setDistance(MAXDOUBLE);
@@ -135,13 +137,13 @@ public class DijsktraAlgorithmusPQ {
         // PQ unvisted
         //vertexCollection unvisited Vertecies
         //****** AUS ALGOUEBUNG8*******
-        System.out.println("vertexCollection"+vertexCollection);
+        System.out.println("vertexCollection" + vertexCollection);
         for (VertexDist vertexDist : vertexCollection) {
-            
-                unvisitedPQ.add(vertexDist);
-           
+//            if(vertexDist.getId()!= startpoint.getId())
+            unvisitedPQ.add(vertexDist);
+
         }
-        System.out.println("Unvisited PQ BEI FILL: "+vertexCollection);
+        System.out.println("Unvisited PQ BEI FILL: " + unvisitedPQ);
     }
 
     /**
@@ -157,8 +159,8 @@ public class DijsktraAlgorithmusPQ {
     private void relax(VertexDist vertexA, VertexDist vertexB, Double egdeWeight) {
 
 //        fillPriorityQueue();
-        unvisitedPQ.addAll(vertexCollection);
-        Collection<EdgeOwn> incidentEdges = graph.getIncidentEdges(vertexA);
+//        unvisitedPQ.addAll(vertexCollection);
+//        Collection<EdgeOwn> incidentEdges = graph.getIncidentEdges(vertexA);
         //Variable um das gewicht des vorgänger zu errechnen 
         Double prevVertexDistWeight = vertexA.getDistance();
 
@@ -166,28 +168,31 @@ public class DijsktraAlgorithmusPQ {
 //TODO ist der pArt richtig Laut Folien ?? 
 
         //Der Part stimmt 100% mit den Folien ueberein 
-        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) && (!visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA))) {
+        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) && (!(visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA)))) {
             Double newDistance = prevVertexDistWeight + egdeWeight;
             Integer newPredecessor = vertexA.getId();
             System.out.println("unvisited PQ befor remove: " + unvisitedPQ);
             //PQ der unvisited 
-            unvisitedPQ.remove(vertexB);
+//            unvisitedPQ.remove(vertexB);
             visitedPQ.remove(vertexB);
             vertexB.setDistance(newDistance);
             vertexB.setPrevVertex(newPredecessor.doubleValue());
             visitedPQ.add(vertexB);
-
-            System.out.println("visited PQ: " + visitedPQ);
+            System.out.println("visited PQ UPDATE: "+visitedPQ);
+            System.out.println("VERTEX B UPDATED: " + vertexB);
         }
     }
 
-    public void initWeightrelaxMethod(VertexDist vertetxU) {
-        Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertetxU);
+    public void initWeightrelaxMethod(VertexDist vertexU) {
+        Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertexU);
         negativeEgdeCheck(incidentEdges);
+        Integer egdeWeight;
         System.out.println("DAS SIND DIE ANZAHL DER INCIDENTKANTEN: " + incidentEdges);
         for (EdgeOwn edge : incidentEdges) {
-            Integer egdeWeight = edge.getWeight();
-
+            egdeWeight = edge.getWeight();
+            //hier spinnt Netbeans? bei ID2 vertexU=2 Doppelt warum auch immer ...
+            System.out.println("VERTEX U aka. Vertex A: " + vertexU);
+            System.out.println("VERTEX U aka. Vertex BBALBAL: " + vertexU);
             VertexDist vertexB;
             VertexDist vertexA;
             if ((edge.getVertexB().getId() < edge.getVertexA().getId())) {
@@ -204,18 +209,19 @@ public class DijsktraAlgorithmusPQ {
     }
 
     public void executeDijkstra() {
-        initializeSingleSource(graph, vertex);
+        initializeSingleSource(graph, startpoint);
 //        fillPriorityQueue();
-        while (unvisitedPQ.poll() != null) {
+        while (unvisitedPQ.peek() != null) {
 //     this is literally the extract-Methode for the PriorityQue it uses the
 //     methode poll of the PQ and removes the vertex at the head of the PQ and
 //      returns the id from thhe vertex
             System.out.println("unvisited PQ  befor poll: " + unvisitedPQ);
             VertexDist vertexU = unvisitedPQ.poll();
+//            unvisitedPQ.remove(vertexU);
             System.out.println("unvisited PQ after poll: " + unvisitedPQ);
             initWeightrelaxMethod(vertexU);
         }
-        System.out.println("Das ist die sortierte PQ" + visitedPQ);
+        System.out.println("Das ist die VISITED sortierte PQ" + visitedPQ);
     }
 
 }
