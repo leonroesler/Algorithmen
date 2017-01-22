@@ -74,6 +74,7 @@ public class DijsktraAlgorithmusPQ {
         this.startpoint = startpoint;
         vertexCollection = graph.getVertices();
 
+        initializeSingleSource(graph, startpoint);
         fillPriorityQueue();
 
     }
@@ -165,10 +166,10 @@ public class DijsktraAlgorithmusPQ {
         Double prevVertexDistWeight = vertexA.getDistance();
 
         Double vertexWeight = egdeWeight + prevVertexDistWeight;
-//TODO ist der pArt richtig Laut Folien ?? 
-
         //Der Part stimmt 100% mit den Folien ueberein 
-        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) && (!(visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA)))) {
+        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) 
+//                && (!(visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA)))
+                ) {
             Double newDistance = prevVertexDistWeight + egdeWeight;
             Integer newPredecessor = vertexA.getId();
             System.out.println("unvisited PQ befor remove: " + unvisitedPQ);
@@ -178,11 +179,15 @@ public class DijsktraAlgorithmusPQ {
             vertexB.setDistance(newDistance);
             vertexB.setPrevVertex(newPredecessor.doubleValue());
             visitedPQ.add(vertexB);
-            System.out.println("visited PQ UPDATE: "+visitedPQ);
+            System.out.println("visited PQ UPDATE: " + visitedPQ);
             System.out.println("VERTEX B UPDATED: " + vertexB);
         }
     }
 
+    /**
+     *
+     * @param vertexU
+     */
     public void initWeightrelaxMethod(VertexDist vertexU) {
         Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertexU);
         negativeEgdeCheck(incidentEdges);
@@ -201,15 +206,17 @@ public class DijsktraAlgorithmusPQ {
             } else {
                 vertexB = edge.getVertexB();
                 vertexA = edge.getVertexA();
-
             }
             relax(vertexA, vertexB, egdeWeight.doubleValue());
         }
 
     }
 
+    /**
+     *
+     */
     public void executeDijkstra() {
-        initializeSingleSource(graph, startpoint);
+       
 //        fillPriorityQueue();
         while (unvisitedPQ.peek() != null) {
 //     this is literally the extract-Methode for the PriorityQue it uses the
