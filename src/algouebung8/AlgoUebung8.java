@@ -190,7 +190,7 @@ public class AlgoUebung8 {
 //                    edge.getWeight();
                     //Variable um das gewicht des vorgänger zu errechnen 
                     Double prevVertexDistWeight = vertexA.getDistance();
-                    Double prevSonderFall = vertexB.getDistance();
+//                    Double prevSonderFall = vertexB.getDistance();
 //                    if (vertexB.getId() == (vertexB.getId())) {
                     System.out.println("*************Hier Fängt es ANNN!!!!!************");
 
