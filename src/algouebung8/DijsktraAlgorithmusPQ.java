@@ -61,7 +61,7 @@ public class DijsktraAlgorithmusPQ {
      * @param startpoint
      */
     private DijsktraAlgorithmusPQ(GraphOwn graph, PriorityQueue pq, VertexDist startpoint) {
-//        TODO die wieght methode,  den VertexDist aus dem Vertex den wir aus der PQ haben   daüber bestimmen des kürzesten Weges
+//        TODO die wieght methode,  den VertexDist aus dem Vertex den wir aus der PQ haben darüber bestimmen des kürzesten Weges
         this.graph = graph;
 //        weight= weightFunction(vertex, startpoint);
         
@@ -117,48 +117,44 @@ public class DijsktraAlgorithmusPQ {
      */
     private void relax(VertexDist u, VertexDist v, Double weight) {
 
-        unvisitedSet = new PriorityQueue<VertexDist>(shortestDistanceComparator);
         fillPriorityQueue();
         Collection<EdgeOwn> incidentEdges = graph.getIncidentEdges(u);
+        //TODO wegen FOLIEN gucken ob es so geht ???
+        Collection<EdgeOwn> adj = graph.getNeighbours(u);
         for (EdgeOwn edge : incidentEdges) {
             Integer egdeWeight = edge.getWeight();
-
+//
             VertexDist vertexB = edge.getVertexB();
             VertexDist vertexA = edge.getVertexA();
-            Double prevVertexDistWeight = distanceMap.get(vertexA.getId());
+            //Variable um das gewicht des vorgänger zu errechnen 
+            Double prevVertexDistWeight = vertexA.getDistance();
+            
             Double vertexWeight = egdeWeight.doubleValue() + prevVertexDistWeight;
-
-            if (vertexB.getId() == (v.getId()) && vertexWeight <= distanceMap.get(vertexB.getId())) {
+//TODO ist der pArt richtig Laut Folien ?? 
+            if (vertexB.getId() == (v.getId()) && vertexWeight <= vertexB.getDistance()) {
                 // TODO Nachgucken ob Hashmap doppelte Einträge generiert 
                 //LOESUNG MIT HASHSET ASUTAUSCHEN !!!! 
-                distanceMap.remove(vertexB.getId());
-                distanceMap.put(vertexB.getId(), vertexWeight);
+                unvisitedSet.remove(vertexB);
+                vertexB.setDistance(vertexWeight);
+                unvisitedSet.add(vertexB);
+                
+//                distanceMap.remove(vertexB.getId());
+//                distanceMap.put(vertexB.getId(), vertexWeight);
                 //TODO UNDO //                
-//                visitedSet.add(vertexB.getId());
+                pq.add(vertexB);
 ////                visitedSet.addAll(unvisitedSet);
-//                System.out.println("visited set= " + visitedSet);
-//                visitedSet.add(vertexB.getId());
+                System.out.println("visited set= " + pq);
+                System.out.println("visited set= " + unvisitedSet);
+//               
             }
         }
-
-//        vertex später an erstestelle 
-//        [startVertexDist,,2,3,4,5,6]
-// private HashMap<vertex.ID, gewicht/distance>> vertexDistance;
-// private HashMap<HashMap<Double, VertexDist.id>, Double> vertexDistance;
-// private HashMap<Integer, HashMap<Double, Double>> vertexDistance;
-        Integer uID = u.getId();
-//        HashMap<Integer, Double> vDistance = new HashMap<>();
-        if (distanceMap.get(u.getId()) > distanceMap.get(v.getId()) + weight) {
-            distanceMap.put(v.getId(), distanceMap.get(v.getId()) + weight);
-            prevDistanceMap.put(v.getId(), uID.doubleValue());
+        //Der Part stimmt 100% mit den Folien ueberein 
+        if(u.getDistance()> v.getDistance()+weight){
+            Double newDistance = v.getDistance()+weight;
+            Integer newPredecessor = u.getId();
+            v.setDistance(newDistance);
+            v.setPrevVertex(newPredecessor.doubleValue());
         }
-        //TODO UNDO //
-//        if (distance[u.getId()] > distance[v.getId()] + weight) {
-//            distance[v.getId()] = distance[v.getId()] + weight;
-//            prevDistance[v.getId()] = uID.doubleValue();
-////            vDistance.put(v.getId(), v.getId() + weight);
-//        }
-//        return vDistance;
     }
 
     //utility method to poll data from queue

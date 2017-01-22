@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
@@ -30,31 +31,33 @@ public class AlgoUebung8 {
      */
     public static void main(String[] args) {
         GraphLesenOwn graphLesen = new GraphLesenOwn();
-        File file = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_5.txt");
+        File file4 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_4.txt");
+        File file = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_2.txt");
+        File file5 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_5.txt");
         File file1 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graphwsu_neu.txt");
 //        C:\Users\emil\Documents\NetBeansProjects\AlgoUebung8\src\algouebung8\BeispieleGewichtet\graphwsu_neu.txt
         String dat = "BeispieleGewichtet/graph8_2.txt";
 //        C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/graph8_2.txt
         //@todo Test Graph 
         final Comparator<VertexDist> shortestDistanceComparator = new Comparator<VertexDist>() {
-        public int compare1(VertexDist left, VertexDist right) {
-            // note that this trick doesn't work for huge distances, close to Integer.MAX_VALUE
-            Double leftTemp= left.getDistance();
-            Double rigthTemp = right.getDistance();
-            Double resultTemp = getShortestDistance(left) - getShortestDistance(right);
-            int result = resultTemp.intValue();
-            
-            return (result == 0) ? left.compareTo(right) : result;
-        }
-        
-        @Override
-        public int compare(VertexDist aktuell, VertexDist prev) {
-            Double resultD = getShortestDistance(aktuell) - getShortestDistance(prev);
-            int result= resultD.intValue();
-            return (result == 0) ? aktuell.compareTo(prev) : result;
-        }
-        
-        //Comparator anonymous class implementation
+            public int compare1(VertexDist left, VertexDist right) {
+                // note that this trick doesn't work for huge distances, close to Integer.MAX_VALUE
+                Double leftTemp = left.getDistance();
+                Double rigthTemp = right.getDistance();
+                Double resultTemp = getShortestDistance(left) - getShortestDistance(right);
+                int result = resultTemp.intValue();
+
+                return (result == 0) ? left.compareTo(right) : result;
+            }
+
+            @Override
+            public int compare(VertexDist aktuell, VertexDist prev) {
+                Double resultD = getShortestDistance(aktuell) - getShortestDistance(prev);
+                int result = resultD.intValue();
+                return (result == 0) ? aktuell.compareTo(prev) : result;
+            }
+
+            //Comparator anonymous class implementation
 //	public static Comparator<VertexDist> idComparator = new Comparator<VertexDist>(){
 //		
 //		@Override
@@ -62,27 +65,29 @@ public class AlgoUebung8 {
 //            return (int) (c1.getDistance() - c2.getDistance());
 //        }
 //	};
-
-        /**
-         * @return the shortest distance from the source to the given
-         * VertexDist, if there is no route to the destination returns infinity
-         *
-         */
-        private Double getShortestDistance(VertexDist aktuell) {
+            /**
+             * @return the shortest distance from the source to the given
+             * VertexDist, if there is no route to the destination returns
+             * infinity
+             *
+             */
+            private Double getShortestDistance(VertexDist aktuell) {
 //            Double shortesDistance = aktuell.getDistance();
-            Double shortesDistance = aktuell.getDistance();
-            int shortesIntDistance = shortesDistance.intValue();
-            // tow options Double.POSITIVE_INFINITY or a number
-            return shortesDistance;
-        }
-    };
+                Double shortesDistance = aktuell.getDistance();
+                int shortesIntDistance = shortesDistance.intValue();
+                // tow options Double.POSITIVE_INFINITY or a number
+                return shortesDistance;
+            }
+        };
         GraphOwn graph;
         Graph graphOri;
 //        System.out.println("DAs kein PLAN MAN :"+graphLesen.FileToWeightedGraphOwn(dat, true));   
         graph = graphLesen.FileToWeightedGraphOwn(file.toString(), true);
-        graphOri=graphLesen.FileToWeightedGraph(file.toString(), true);
         PriorityQueue<VertexDist> unvisitedSet;
+        PriorityQueue<VertexDist> visitedSet = new PriorityQueue<VertexDist>(shortestDistanceComparator);
         unvisitedSet = new PriorityQueue<VertexDist>(shortestDistanceComparator);
+        HashMap<VertexDist, Double> errorControll = new HashMap<VertexDist, Double>();
+
         Collection<VertexDist> vertexDistCollection = graph.getVertices();
 //        unvisitedSet.addAll(vertexDistCollection);
 //        for(VertexDist vertexDist:vertexDistCollection){
@@ -91,34 +96,34 @@ public class AlgoUebung8 {
 //            System.out.println("Distance : "+distance);
 //            unvisitedSet.add(distance);
 //        }
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHEN "+graphOri.getVertices());
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHENOWN "+graph.getVertices());
-         Collection<VertexDist> vertexCollection = graph.getVertices();
-         
-        for(VertexDist vertexDist:vertexCollection){
-            if(vertexDist.getId()== 0.0){
+
+        Collection<VertexDist> vertexCollection = graph.getVertices();
+
+        for (VertexDist vertexDist : vertexCollection) {
+            if (vertexDist.getId() == 0.0) {
                 vertexDist.setDistance(0);
                 vertexDist.setPrevVertex(null);
-                Integer vertexId= vertexDist.getId();
+                Integer vertexId = vertexDist.getId();
 //                unvisitedSet.add(vertexDist.getDistance());
 //                unvisitedSet.add(vertexDist);
-            }else if(vertexDist.getId()==4.0){
-                vertexDist.setDistance(8);
-//                unvisitedSet.add(vertexDist.getDistance());
-                Integer vertexId= vertexDist.getId();
-                unvisitedSet.add(vertexDist);
-            }else{
-            Double distance = vertexDist.getDistance();
-            Integer vertexId= vertexDist.getId();
-            System.out.println("Vertex is "+vertexDist);
-            System.out.println("Distance : "+distance);
+            } //            else if (vertexDist.getId() == 4.0) {
+            //                vertexDist.setDistance(8);
+            ////                unvisitedSet.add(vertexDist.getDistance());
+            //                Integer vertexId = vertexDist.getId();
+            //                unvisitedSet.add(vertexDist);
+            //            } 
+            else {
+                Double distance = vertexDist.getDistance();
+                Integer vertexId = vertexDist.getId();
+                System.out.println("Vertex is " + vertexDist);
+                System.out.println("Distance : " + distance);
 //            unvisitedSet.add(distance);
-            unvisitedSet.add(vertexDist);
+                unvisitedSet.add(vertexDist);
             }
         }
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHEN "+graphOri.getVertices());
-        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHENOWN "+graph.getVertices());
-        System.out.println("*****************das ist die PQ die hure!! "+unvisitedSet);
+//        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHEN " + graphOri.getVertices());
+        System.out.println("DAS SIND IDE VERTICES AUS DEM GRAPHENOWN " + graph.getVertices());
+        System.out.println("*****************das ist die PQ die hure!! " + unvisitedSet);
 
 //HAsmapp die die Distance ausgibt
 //      key:ID value:distance to s temp
@@ -130,7 +135,8 @@ public class AlgoUebung8 {
 //        PriorityQueue<Vertex> unvisteited = new PriorityQueue<Vertex>();
         PriorityQueue<Double> visitedSetHash = new PriorityQueue<Double>(graph.getNumberVertices());
 
-        Vertex startpoint = new Vertex(0);
+        VertexDist startpoint = new VertexDist(0);
+        startpoint.setDistance(0);
         Double MAXDOUBLE = Double.POSITIVE_INFINITY;
         System.out.println("DAS IST  MAXDOUBLE: " + MAXDOUBLE);
         //key is distance
@@ -140,13 +146,12 @@ public class AlgoUebung8 {
         if (graph.getNumberVertices() != 0 && graph != null) {
 
             System.out.println("das ist die anzehl der Vertices:" + graph.getNumberVertices());
-            System.out.println("das ist die anzehl der Edges:" + graph.getEdges().size());
+            System.out.println("das ist die anzehl der Edges:" + graph.getEdges());
 
             PriorityQueue<Double> filledPriorityQueue = new PriorityQueue<Double>(graph.getNumberVertices());
 //            PriorityQueue<Double> unvisitedSet = new PriorityQueue<Double>(graph.getNumberVertices());
-            PriorityQueue<Integer> visitedSet = new PriorityQueue<Integer>(graph.getNumberVertices());
-//            PriorityQueue<Vertex> unvisitedSet = new PriorityQueue<Vertex>(graph.getNumberVertices());
 
+//            PriorityQueue<Vertex> unvisitedSet = new PriorityQueue<Vertex>(graph.getNumberVertices());
             Collection<VertexDist> vertexIDcollection = graph.getVertices();
 
             for (VertexDist vertex : vertexIDcollection) {
@@ -156,82 +161,111 @@ public class AlgoUebung8 {
                 }
 //                System.out.println("das ist der start vertex" + vertex.getId());
                 if (vertex.getId() != startpoint.getId()) {
-                    //HASHMAP variante
-                    //  die distance mit dem VertexID... bekommt den wert  Maxdouble
-                    distanceMap.put(vertexId, MAXDOUBLE);
-                    //  die prevdistance mit dem VertexID... bekommt den wert  null
-                    prevDistanceMap.put(vertexId, null);
-                    //HASHMAP variante ENDE
                     System.out.println("das ist der start vertex" + vertex);
                     //zur Queuefür die unbesuchten Knoten hinzufügen
-
-//                    unvisitedSet.add(vertexId.doubleValue());
-//                    unvisitedSet.add(vertexId.doubleValue());
                     System.out.println("hier ist die UNVISITED PQ " + unvisitedSet);
-//                    System.out.println(unvisitedSet.peek());
-//                    System.out.println(unvisitedSet.poll() + ":" + unvisitedSet.peek());
                 }
-
             }
-            distanceMap.put(startpoint.getId(), 0.0);
 //********* hier beginnt die relax Methode *******//////
             for (VertexDist vertex : vertexIDcollection) {
                 Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertex);
+                System.out.println("DAS SIND DIE ANZAHL DER INCIDENTKANTEN: " + incidentEdges);
                 for (EdgeOwn edge : incidentEdges) {
                     Integer egdeWeight = edge.getWeight();
+                    System.out.println("WEIGHT DER KANTE !!: " + egdeWeight);
                     System.out.println("das ist der fehler bei VertexA : " + edge.getVertexA());
-                    Vertex vertexB = edge.getVertexB();
-                    Vertex vertexA = edge.getVertexA();
-                    Double prevVertexWeight = distanceMap.get(vertexA.getId());
+
+                    VertexDist vertexB;
+                    VertexDist vertexA;
+                    if ((edge.getVertexB().getId() < edge.getVertexA().getId())) {
+                        vertexB = edge.getVertexA();
+                        vertexA = edge.getVertexB();
+                    } else {
+                        vertexB = edge.getVertexB();
+                        vertexA = edge.getVertexA();
+//                    Collection<VertexDist> allNeighbours = graph.getNeighbours(vertex);
+//                    for(VertexDist vertexNeighbour : allNeighbours){
+                    }
+//                    edge.getWeight();
+                    //Variable um das gewicht des vorgänger zu errechnen 
+                    Double prevVertexDistWeight = vertexA.getDistance();
+                    Double prevSonderFall = vertexB.getDistance();
                     if (vertexB.getId() == (vertexB.getId())) {
                         System.out.println("*************Hier Fängt es ANNN!!!!!************");
-                        // TODO Nachgucken ob Hashmap doppelte Einträge generiert 
-                        //LOESUNG MIT HASHSET ASUTAUSCHEN !!!! 
-                        System.out.println("Distance Map vor remove" + distanceMap);
 
                         //@TODO
-                        Double vertexWeight = egdeWeight.doubleValue() + prevVertexWeight;
-                        Double vertexWeightHASH = egdeWeight.doubleValue() + prevVertexWeight;
-                        Double weight = distanceMap.get(vertexB.getId());
+                        Double vertexWeight = egdeWeight.doubleValue() + prevVertexDistWeight;
+                        Double weight = vertexB.getDistance();
+                        System.out.println("das ist GEWICHT DER KANTE: " + egdeWeight);
                         System.out.println("das ist Weight : " + weight);
-                        if (vertexWeight < distanceMap.get(vertexB.getId())) {
-//                            unvisitedSet.
-                            distanceMap.remove(vertexB.getId());
-                            System.out.println("Distance Map direkt NACH remove" + distanceMap);
-                            distanceMap.put(vertexB.getId(), egdeWeight.doubleValue() + prevVertexWeight);
-//                        visitedSetHash.add(distanceMap.get(vertexB.getId()));
-                            //nach dem hinzufügen in der PQ wird der Vertex entfernt um aufaddierung der werte zu verhindern
+                        if (vertexWeight <= vertexB.getDistance()) {
+                            System.out.println(" das ist doch leer ??: " + visitedSet);
+                            if (!visitedSet.contains(vertexB) || visitedSet.contains(vertexA)) {
+                                unvisitedSet.remove(vertexB);
+                                visitedSet.remove(vertexB);
+                                errorControll.remove(vertexB);
+                                System.out.println("Distance unvistPQ direkt NACH remove" + unvisitedSet);
+                                //Updated VertexB distance
+                                vertexB.setDistance(vertexWeight);
+//                            unvisitedSet.add(vertexB);
+                                visitedSet.add(vertexB);
+                                errorControll.put(vertexB, vertexB.getDistance());
+                                visitedSet.containsAll(visitedSet);
+                                //nach dem hinzufügen in der PQ wird der Vertex entfernt um aufaddierung der werte zu verhindern
+                                //add vertexB to visited PQ ?? ob das hier richtig ist ???     
+                                System.out.println("ERROR CONTROLL !!: " + errorControll);
+                                System.out.println("visited set UPDATED= " + visitedSet);
+                                System.out.println("DISTANCE get UPDATED= " + vertexB.getDistance());
 
-                            visitedSet.add(vertexB.getId());
-//                  visitedSet.addAll(unvisitedSet);
-                            System.out.println("visited set UPDATED= " + visitedSet);
-                            System.out.println("Distance Map" + distanceMap);
-                            Integer idVertex = vertexB.getId();
-//                        Double weight= distanceMap.get(vertexB.getId());
-//                        Double weight= distanceMap.get(vertexB.getId());
-//                        visitedSetHash.add(distanceMap.get(vertexB.getId()));
-                            visitedSetHash.add(vertexWeight);
-                            System.out.println("PQ mit GEWICHTEN " + visitedSetHash);
-                            System.out.println("PQ mit GEWICHTEN AUS DER DISTANCEMAP " + visitedSetHash);
-
-//                        weight.intValue();
-                            System.out.println("weigth Value ist " + weight);
-                            filledPriorityQueue.add(vertexWeight);
+                                System.out.println("UNVISITED Map" + unvisitedSet);
+                                visitedSetHash.add(vertexWeight);
+                                System.out.println("PQ mit GEWICHTEN " + visitedSetHash);
+                                System.out.println("PQ mit GEWICHTEN AUS DER DISTANCEMAP " + visitedSetHash);
+//                            visitedSet.addAll(unvisitedSet);
+//                            System.out.println("visited set= " + visitedSet);
+//                            System.out.println("unvisited set= " + unvisitedSet);
+                                //                        weight.intValue();
+                                System.out.println("weigth Value ist " + weight);
+                                filledPriorityQueue.add(vertexWeight);
 //                            filledPriorityQueue.add(egdeWeight.doubleValue());
-                            System.out.println("PQ" + filledPriorityQueue);
-                           
-                            System.out.println("*************OK NÄCHSTER SCHRITT!!!!!************");
+                                System.out.println("PQ" + filledPriorityQueue);
+
+                                System.out.println("*************OK NÄCHSTER SCHRITT!!!!!************");
+
+                            }
                         }
+//                        else if (vertexWeight <= vertexA.getDistance() && vertexB.getDistance() == startpoint.getDistance()) {
+//                            Double vertexWeightSonder = egdeWeight.doubleValue() + prevSonderFall;
+//                            unvisitedSet.remove(vertexA);
+//                            vertexA.setDistance(vertexWeightSonder);
+//
+//                            visitedSet.add(vertexA);
+//                        }
+                        System.out.println("AUSSERHALB DER SCHLEIFE");
+                        System.out.println("visited set= " + visitedSet);
+                        System.out.println("unvisited set= " + unvisitedSet);
 
                     }
 //                    distanceMap.values();
 
                 }
 
-            }filledPriorityQueue.clear();
+            }
+            while(!visitedSet.isEmpty()){
+                System.out.println("visisted Komisches verhalten ?:" +visitedSet);
+                visitedSet.poll();
+                System.out.println("die reihenfolge müsste sich ändern "+visitedSet);
+            }
+            
+            for (VertexDist visDist : visitedSet) {
+                
+                
+            }
+            filledPriorityQueue.clear();
 //            distanceMap.remove(startpoint.getId());
-                   filledPriorityQueue.addAll(distanceMap.values());
-                    System.out.println("die richtige PQ GEFÜLLT MIT DEN RICHTIGEN GEWICHTEN !!"+filledPriorityQueue);
+            filledPriorityQueue.addAll(distanceMap.values());
+            
+            System.out.println("die richtige PQ GEFÜLLT MIT DEN RICHTIGEN GEWICHTEN !!" + filledPriorityQueue);
         }
 
 //        /*******TEMPORÄRE METHODE ***************/
