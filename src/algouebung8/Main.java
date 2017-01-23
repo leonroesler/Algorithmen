@@ -5,11 +5,9 @@
  */
 package algouebung8;
 
-import com.sun.javafx.geom.Curve;
 import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 
 /**
@@ -62,10 +60,10 @@ public class Main {
 //        
         
         GraphLesenOwn graphLesen = new GraphLesenOwn();
-        File file4 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_4.txt");
-        File file2 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_2.txt");
-        File file = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graph8_5.txt");
-        File file1 = new File("C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/BeispieleGewichtet/graphwsu_neu.txt");
+        File file4 = new File("graphenDat/graph8_4.txt");
+        File file2 = new File("graphenDat/graph8_2.txt");
+        File file = new File("graphenDat/graph8_5.txt");
+        File file1 = new File("graphenDat/graphwsu_neu.txt");
 //        C:\Users\emil\Documents\NetBeansProjects\AlgoUebung8\src\algouebung8\BeispieleGewichtet\graphwsu_neu.txt
         String dat = "BeispieleGewichtet/graph8_2.txt";
 //        C:/Users/emil/Documents/NetBeansProjects/AlgoUebung8/src/algouebung8/graph8_2.txt
@@ -109,6 +107,7 @@ public class Main {
         Collection<EdgeOwn>edge=graph.getEdges();
         PriorityQueue<VertexDist> weight = new PriorityQueue<VertexDist>();
         DijsktraAlgorithmusPQ dijkstra= new DijsktraAlgorithmusPQ(graph, weight, graph.getVertexDist(0));
+        //execute Dijkstra to find shortest path from start to given target
         dijkstra.executeDijkstra();
        
     }

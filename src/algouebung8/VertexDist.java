@@ -9,7 +9,8 @@ package algouebung8;
 public class VertexDist extends Vertex implements Comparable{
 
     private int id;
-    private double distance ;
+    private double distance;
+    private VertexDist vertexPrev;
 
     public VertexDist(int id) {
         super(id);
@@ -20,6 +21,13 @@ public class VertexDist extends Vertex implements Comparable{
 //    public VertexDist(int id) {
 //        super(id);
 //    }
+    public VertexDist getPrevVertex() {
+    return vertexPrev;
+}
+
+    public void setPrevVertex(VertexDist prevDistans) {
+        this.vertexPrev = prevDistans;
+    }
 
     public double getDistance() {
         return distance;

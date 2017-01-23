@@ -26,14 +26,6 @@ public class Vertex {
         return id;
     }
 
-    public Double getPrevVertex() {
-        return prevVertex;
-    }
-
-    public void setPrevVertex(Double prevDistans) {
-        this.prevVertex = prevDistans;
-    }
-
     public double getDistance() {
         return distance;
     }
