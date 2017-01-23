@@ -21,77 +21,95 @@ import org.omg.PortableServer.LifespanPolicy;
  * @author emil
  */
 public class Main {
-//private  Double weightFunction(Vertex u,Vertex v){
-//        Edge distanceFromUandV = new Edge(vertex, vertex);
-//        Integer tempWeight=distanceFromUandV.getWeight();
-//        Double weight;
-//        weight= tempWeight.doubleValue();
-//        return weight;
-//    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-            GraphLesenOwn graphLesen = new GraphLesenOwn();
-            File file = new File("src/algouebung8/BeispieleGewichtet/graph8_4.txt");
-            File file2 = new File("src/algouebung8/BeispieleGewichtet/graph8_2.txt");
-            File file3 = new File("src/algouebung8/BeispieleGewichtet/graph8_5.txt");
-            File file1 = new File("src/algouebung8/BeispieleGewichtet/graphwsu_neu.txt");
-//@todo Test Graph
-            final Comparator<VertexDist> shortestDistanceComparator = new Comparator<VertexDist>() {
-                public int compare1(VertexDist left, VertexDist right) {
-                    // note that this trick doesn't work for huge distances, close to Integer.MAX_VALUE
-                    Double leftTemp = left.getDistance();
-                    Double rigthTemp = right.getDistance();
-                    Double resultTemp = getShortestDistance(left) - getShortestDistance(right);
-                    int result = resultTemp.intValue();
-
-                    return (result == 0) ? left.compareTo(right) : result;
-                }
-
-                @Override
-                public int compare(VertexDist aktuell, VertexDist prev) {
-                    Double resultD = getShortestDistance(aktuell) - getShortestDistance(prev);
-                    int result = resultD.intValue();
-                    return (result == 0) ? aktuell.compareTo(prev) : result;
-                }
-
-                /**
-                 * @return the shortest distance from the source to the given
-                 * VertexDist, if there is no route to the destination returns
-                 * infinity
-                 *
-                 */
-                private Double getShortestDistance(VertexDist aktuell) {
-//            Double shortesDistance = aktuell.getDistance();
-                    Double shortesDistance = aktuell.getDistance();
-                    int shortesIntDistance = shortesDistance.intValue();
-// tow options Double.POSITIVE_INFINITY or a number
-                    return shortesDistance;
-                }
-            };
-            GraphOwn graph;
-//        System.out.println("DAs kein PLAN MAN :"+graphLesen.FileToWeightedGraphOwn(dat, true));
-            graph = graphLesen.FileToWeightedGraphOwn(file.toString(), true);
-//        PriorityQueue<VertexDist> unvisitedSet;
-            Collection<EdgeOwn> edge = graph.getEdges();
-            PriorityQueue<VertexDist> weight = new PriorityQueue<VertexDist>();
+        GraphLesenOwn graphLesen = new GraphLesenOwn();
+        File file4 = new File("src/algouebung8/BeispieleGewichtet/graph8_4.txt");
+        File file2 = new File("src/algouebung8/BeispieleGewichtet/graph8_2.txt");
+        File file5 = new File("src/algouebung8/BeispieleGewichtet/graph8_5.txt");
+        File fileNeu = new File("src/algouebung8/BeispieleGewichtet/graphwsu_neu.txt");
+        PriorityQueue<VertexDist> weight = new PriorityQueue<VertexDist>();
+        
+        
+        //*************TEST FÜR graphwsu_neu.txt also dem Folienbeispiel******/
+        GraphOwn graphwsu_neu;
+        graphwsu_neu = graphLesen.FileToWeightedGraphOwn(fileNeu.toString(), true);
         try {
-            DijsktraAlgorithmusPQ dijkstra = new DijsktraAlgorithmusPQ(graph, weight, graph.getVertexDist(0));
+            DijkstraAlgorithmusPQ dijkstra = new DijkstraAlgorithmusPQ(graphwsu_neu, weight, graphwsu_neu.getVertexDist(0));
+            System.out.println("*** TEST FÜR graphwsu_neu****");
             dijkstra.executeDijkstra();
-            for(VertexDist vertexDist:dijkstra.getVisitedPQ()){
-                
-             LinkedList<VertexDist> path = new LinkedList<>();
-             path = dijkstra.getPath(vertexDist);
+            for (VertexDist vertexDist : dijkstra.getVisitedPQ()) {
+
+                dijkstra.getPath(vertexDist);
             }
+            System.out.println("***ENDE VON TEST FÜR graphwsu_neu****");
+            System.out.println("\n");
         } catch (NegativeEdgeException ex) {
             System.out.println(ex.getMessage());
             System.err.println("" + ex.getMessage());
-            System.err.printf("" + ex.getMessage()+"\n");
+            System.err.printf("" + ex.getMessage() + "\n");
         }
+        //*************TEST FÜR graph8_5  das wo alle zur null führen******/
+        GraphOwn graph8_5;
+        graph8_5 = graphLesen.FileToWeightedGraphOwn(file5.toString(), true);
+        try {
+            DijkstraAlgorithmusPQ dijkstra = new DijkstraAlgorithmusPQ(graph8_5, weight, graph8_5.getVertexDist(0));
+            System.out.println("***TEST FÜR graph8_5****");
+            dijkstra.executeDijkstra();
+            for (VertexDist vertexDist : dijkstra.getVisitedPQ()) {
 
+                dijkstra.getPath(vertexDist);
+            }
+            System.out.println("***ENDE VON TEST FÜR graph8_5****");
+            System.out.println("\n");
+        } catch (NegativeEdgeException ex) {
+            System.out.println(ex.getMessage());
+            System.err.println("" + ex.getMessage());
+            System.err.printf("" + ex.getMessage() + "\n");
+        }
+        //*************TEST FÜR graph8_2******/
+        GraphOwn graph8_2;
+        graph8_2 = graphLesen.FileToWeightedGraphOwn(file2.toString(), true);
+        try {
+            DijkstraAlgorithmusPQ dijkstra = new DijkstraAlgorithmusPQ(graph8_2, weight, graph8_2.getVertexDist(0));
+            System.out.println("***TEST FÜR graph8_2****");
+            dijkstra.executeDijkstra();
+            for (VertexDist vertexDist : dijkstra.getVisitedPQ()) {
+
+                dijkstra.getPath(vertexDist);
+               
+            }
+            System.out.println("***ENDE VON TEST FÜR graph8_2****");
+            System.out.println("\n");
+        } catch (NegativeEdgeException ex) {
+            System.out.println(ex.getMessage());
+            System.err.println("" + ex.getMessage());
+            System.err.printf("" + ex.getMessage() + "\n");
+        }
+        //*************TEST FÜR graph8_4 hier wird eine Exception Geworfen FIle mit negativen Kanten******/
+        GraphOwn graph8_4;
+        
+        graph8_4 = graphLesen.FileToWeightedGraphOwn(file4.toString(), true);
+        try {
+            DijkstraAlgorithmusPQ dijkstra = new DijkstraAlgorithmusPQ(graph8_4, weight, graph8_4.getVertexDist(0));
+            System.out.println("*** TEST FÜR graph8_4****");
+            dijkstra.executeDijkstra();
+            for (VertexDist vertexDist : dijkstra.getVisitedPQ()) {
+
+                dijkstra.getPath(vertexDist);
+            }
+            System.out.println("***ENDE VON TEST FÜR graph8_4****");
+            System.out.println("\n");
+        } catch (NegativeEdgeException ex) {
+            ex.getMessage();
+            System.out.println(ex);
+            System.err.printf("" + ex.getMessage()+""+ "\n");
+        }
     }
+       
 
 }

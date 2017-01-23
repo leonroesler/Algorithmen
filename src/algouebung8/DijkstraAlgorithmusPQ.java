@@ -5,7 +5,6 @@
  */
 package algouebung8;
 
-import static algouebung8.Test.vertexDistCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,12 +21,11 @@ import java.util.logging.Logger;
  *
  * @author emil
  */
-public class DijsktraAlgorithmusPQ {
+public class DijkstraAlgorithmusPQ {
 
     private GraphOwn graph;
     private VertexDist startpoint;
     private Double MAXDOUBLE = Double.POSITIVE_INFINITY;
-//TODO if unneeded remove
     private HashMap<Integer, Double> prevDistanceMap = new HashMap<>();
     //filled with all vertecies from graph 
     Collection<VertexDist> vertexCollection;
@@ -60,12 +58,15 @@ public class DijsktraAlgorithmusPQ {
     private PriorityQueue weight = new PriorityQueue<VertexDist>(7, shortestDistanceComparator);
 
     /**
+     * The Constructor for the Algorithem if edges get a negative value it
+     * throws an NegativeEdgeException
      *
      * @param graph
-     * @param pq
+     * @param weight
      * @param startpoint
+     * @throws algouebung8.NegativeEdgeException
      */
-    public DijsktraAlgorithmusPQ(GraphOwn graph, PriorityQueue weight, VertexDist startpoint) throws NegativeEdgeException{
+    public DijkstraAlgorithmusPQ(GraphOwn graph, PriorityQueue weight, VertexDist startpoint) throws NegativeEdgeException {
 //        TODO die wieght methode,  den VertexDist aus dem Vertex den wir aus der PQ haben darüber bestimmen des kürzesten Weges
         this.graph = graph;
         Collection<EdgeOwn> collectionOfEdges = graph.getEdges();
@@ -81,6 +82,12 @@ public class DijsktraAlgorithmusPQ {
 
     }
 
+    /**
+     * this methode filles the weightPQ with all weight from the graph
+     *
+     * @param collectionOfEdges
+     * @param weight1
+     */
     private void weightMethode(Collection<EdgeOwn> collectionOfEdges, PriorityQueue weight1) {
         for (EdgeOwn edge : collectionOfEdges) {
             String msg = "this Edge has negative Weight!!";
@@ -101,52 +108,52 @@ public class DijsktraAlgorithmusPQ {
         return visitedPQ;
     }
 
-    private void negativeEdgeCheck(Collection<EdgeOwn> collectionOfEdges)throws NegativeEdgeException {
+    /**
+     * Methode to check if edges have negative value
+     *
+     * @param collectionOfEdges
+     * @throws NegativeEdgeException
+     */
+    private void negativeEdgeCheck(Collection<EdgeOwn> collectionOfEdges) throws NegativeEdgeException {
         for (EdgeOwn edge : collectionOfEdges) {
             String msg = "this Edge has negative Weight!!";
             if (edge.getWeight() < 0) {
-                    throw new NegativeEdgeException();
-                
-            }
-        }
-    }
-
-    private void initializeSingleSource(GraphOwn graph, VertexDist startpoint) {
-        //collection die alle Vertices enthält
-//        Collection<VertexDist> allVerteciesInGraph = graph.getVertices();
-        //queue die alle unbesuchten/unbearbeiteten vertices enthalten sollte 
-//        unvisitedSet = new PriorityQueue<Integer>(graphS.getNumberVertices());
-
-        for (VertexDist vertexfromGraph : vertexCollection) {
-            Integer vertexId = vertexfromGraph.getId();
-            System.out.println("VertexID: " + vertexId);
-            if (vertexfromGraph.getId() != startpoint.getId()) {
-
-                vertexfromGraph.setDistance(MAXDOUBLE);
-                vertexfromGraph.setPrevVertex(null);
+                throw new NegativeEdgeException();
 
             }
-
         }
-        startpoint.setDistance(0.0);
-//        startpoint.setPrevVertex(null);
     }
 
     /**
-     * method to fill the ProirityQueue with alle Vertecies from the Graph
-     * Assume: that all Vertices are not visited
+     * Assume: all Verticies are unvisited . this methode initialize all
+     * verticies from the graph with infinity and the startinpoint with weight 0
+     *
+     * @param graph
+     * @param startpoint
+     */
+    private void initializeSingleSource(GraphOwn graph, VertexDist startpoint) {
+        vertexCollection.forEach((vertexfromGraph) -> {
+            Integer vertexId = vertexfromGraph.getId();
+            if (vertexfromGraph.getId() != startpoint.getId()) {
+                vertexfromGraph.setDistance(MAXDOUBLE);
+                vertexfromGraph.setPrevVertex(null);
+            }
+        });
+        startpoint.setDistance(0.0);
+    }
+
+    /**
+     * Assume PQ is Empty. method to fill the unvisited ProirityQueue with alle
+     * Vertecies from the Graph Assume: that all Vertices are not visited
      */
     private void fillPriorityQueue() {
         // PQ unvisted
         //vertexCollection unvisited Vertecies
-        //****** AUS ALGOUEBUNG8*******
         System.out.println("vertexCollection" + vertexCollection);
         for (VertexDist vertexDist : vertexCollection) {
-//            if(vertexDist.getId()!= startpoint.getId())
             unvisitedPQ.add(vertexDist);
 
         }
-        System.out.println("Unvisited PQ BEI FILL: " + unvisitedPQ);
     }
 
     /**
@@ -161,45 +168,33 @@ public class DijsktraAlgorithmusPQ {
      */
     private void relax(VertexDist vertexA, VertexDist vertexB, Double egdeWeight) {
 
-//        fillPriorityQueue();
-//        unvisitedPQ.addAll(vertexCollection);
-//        Collection<EdgeOwn> incidentEdges = graph.getIncidentEdges(vertexA);
-        //Variable um das gewicht des vorgänger zu errechnen 
         Double prevVertexDistWeight = vertexA.getDistance();
 
         Double vertexWeight = egdeWeight + prevVertexDistWeight;
-        //Der Part stimmt 100% mit den Folien ueberein 
-        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight) 
-//                && (!(visitedPQ.contains(vertexB) || visitedPQ.contains(vertexA)))
-                ) {
+
+        if ((vertexB.getDistance() >= vertexA.getDistance() + egdeWeight)) {
             Double newDistance = prevVertexDistWeight + egdeWeight;
             VertexDist newPredecessor = vertexA;
-            System.out.println("unvisited PQ befor remove: " + unvisitedPQ);
-            //PQ der unvisited 
-//            unvisitedPQ.remove(vertexB);
             visitedPQ.remove(vertexB);
             vertexB.setDistance(newDistance);
             vertexB.setPrevVertex(newPredecessor);
             visitedPQ.add(vertexB);
-            System.out.println("visited PQ UPDATE: " + visitedPQ);
-            System.out.println("VERTEX B UPDATED: " + vertexB);
+
         }
     }
 
     /**
+     * A methode that initialize
      *
      * @param vertexU
+     * @throws algouebung8.NegativeEdgeException
      */
     public void initWeightrelaxMethod(VertexDist vertexU) throws NegativeEdgeException {
         Collection<EdgeOwn> incidentEdges = graph.getIncidentEdgesOwn(vertexU);
         negativeEdgeCheck(incidentEdges);
         Integer egdeWeight;
-        System.out.println("DAS SIND DIE ANZAHL DER INCIDENTKANTEN: " + incidentEdges);
         for (EdgeOwn edge : incidentEdges) {
             egdeWeight = edge.getWeight();
-            //hier spinnt Netbeans? bei ID2 vertexU=2 Doppelt warum auch immer ...
-            System.out.println("VERTEX U aka. Vertex A: " + vertexU);
-            System.out.println("VERTEX U aka. Vertex BBALBAL: " + vertexU);
             VertexDist vertexB;
             VertexDist vertexA;
             if ((edge.getVertexB().getId() < edge.getVertexA().getId())) {
@@ -215,60 +210,58 @@ public class DijsktraAlgorithmusPQ {
     }
 
     /**
+     * this methode execute the Algorithem
      *
+     * @throws algouebung8.NegativeEdgeException
      */
     public void executeDijkstra() throws NegativeEdgeException {
-       
+
 //        fillPriorityQueue();
         while (unvisitedPQ.peek() != null) {
 //     this is literally the extract-Methode for the PriorityQue it uses the
 //     methode poll of the PQ and removes the vertex at the head of the PQ and
 //      returns the id from thhe vertex
-            System.out.println("unvisited PQ  befor poll: " + unvisitedPQ);
             VertexDist vertexU = unvisitedPQ.poll();
-//            unvisitedPQ.remove(vertexU);
-            System.out.println("unvisited PQ after poll: " + unvisitedPQ);
             initWeightrelaxMethod(vertexU);
         }
         System.out.println("Das ist die VISITED sortierte PQ" + visitedPQ);
     }
-    /*
-         * This method returns the path from the source to the selected target and
-         * NULL if no path exists
-         */
-        public LinkedList<VertexDist> getPath(VertexDist target) {
-                LinkedList<VertexDist> path = new LinkedList<VertexDist>();
-                VertexDist step = target;
-                // check if a path exists
-                if (step.getPrevVertex() == null) {
-                        return null;
-                }
-                path.add(step);
-                while (step.getPrevVertex().getDistance() != startpoint.getDistance()) {
-                        step = step.getPrevVertex();
-                        path.add(step);
-                }
-                // Put it into the correct order
-                
-                Collections.reverse(path);
-                        System.out.println("Das ist der Zielvertex!!"+target);
-                        System.out.println("Das ist der Zielvertex!!"+step);
-                        System.out.println(path);
-                System.out.println(startpoint);
-                    String pathfromVertex; 
-                for(VertexDist vertexPath:path){
-                     pathfromVertex= vertexPath.toString(); 
-                    
-                    System.out.println(pathfromVertex);
-                }
-//                System.out.print(startpoint+"->");
-                return path;
-        }
-        
-        
-        public void kurz(VertexDist kurz ){
-          
-                
-        }
 
+    /**
+     * Assume target is visited an has predessecor.
+     * This method returns the path from the source to the selected target and
+     * NULL if no path exists
+     *
+     * @param target
+     * @return
+     */
+    public LinkedList<VertexDist> getPath(VertexDist target) {
+        LinkedList<VertexDist> path = new LinkedList<VertexDist>();
+        VertexDist step = target;
+        // check if a path exists
+        if (step.getPrevVertex() == null) {
+            return null;
+        }
+        path.add(step);
+        while (step.getPrevVertex().getDistance() != startpoint.getDistance()) {
+            step = step.getPrevVertex();
+            path.add(step);
+        }
+        // Put it into the correct order
+
+        Collections.reverse(path);
+        System.out.println("Das ist der Zielvertex!!" + target);
+        System.out.println("Das die DIstance!!" + target.getDistance());
+        System.out.println("so ergibt sie Sich:");
+        
+        System.out.println(path);
+        System.out.println(startpoint);
+        String pathfromVertex;
+        for (VertexDist vertexPath : path) {
+            pathfromVertex = vertexPath.toString();
+
+            System.out.println(pathfromVertex);
+        }
+        return path;
+    }
 }
