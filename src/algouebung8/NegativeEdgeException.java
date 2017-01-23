@@ -16,6 +16,7 @@ public class NegativeEdgeException extends Exception {
      * detail message.
      */
     public NegativeEdgeException() {
+        super("Eine NegativeKante wurde gefunden");
     }
 
     /**

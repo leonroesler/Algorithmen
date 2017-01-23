@@ -10,6 +10,23 @@ public class VertexDist extends Vertex implements Comparable{
 
     private int id;
     private double distance ;
+    private VertexDist prevVertex;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public VertexDist getPrevVertex() {
+        return prevVertex;
+    }
+
+    public void setPrevVertex(VertexDist prevVertex) {
+        this.prevVertex = prevVertex;
+    }
 
     public VertexDist(int id) {
         super(id);
